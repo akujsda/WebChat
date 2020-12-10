@@ -12,7 +12,7 @@ input NewUser {
 }
 
 input UserId {
-  id: String!
+  id: ID!
 }
 
 type Mutation {

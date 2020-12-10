@@ -22,6 +22,6 @@ export class UsersService {
   }
 
   findOne(find: UserId): User {
-    return this.users.find((user)=> find.id === user.id)
+    return this.users.find((user)=> user.id === find.id)
   }
 }
