@@ -7,14 +7,11 @@ export class User extends BaseEntity {
   id: string;
 
   @Column({ type: 'varchar', length: 300 })
-  name: string;
+  from: string;
 
   @Column({ type: 'varchar', length: 300 })
-  email: string;
+  to: string;
 
   @Column({ type: 'varchar', length: 300 })
-  password: string;
-
-  @Column({ type: 'varchar', length: 300 })
-  isOnline: boolean;
+  date: string;
 }
