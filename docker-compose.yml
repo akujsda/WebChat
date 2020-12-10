@@ -1,0 +1,29 @@
+version: "3.7"
+
+volumes:
+  redis-local:
+  postgres-local:
+
+services:
+  db:
+    image: postgres:11.4
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=pg_chat
+    volumes:
+      - postgres-local:/var/lib/postgresql/data
+
+  pgweb:
+    image: sosedoff/pgweb
+    restart: on-failure
+    ports:
+      - 5433:8081
+    environment:
+      - DATABASE_URL=postgres://tr:tr@db:5432/tr_development?sslmode=disable
+    depends_on:
+      - db
+    healthcheck:
+      disable: true
