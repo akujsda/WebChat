@@ -12,7 +12,17 @@ import {TypeOrmModule} from "@nestjs/typeorm"
       typePaths: ['./**/*.graphql'],
     }),
     TypeOrmModule.forRoot({
-
+      "type": "postgres",
+      "host": "localhost",
+      "port": 5432,
+      "username": "tr",
+      "password": "tr",
+      "database": "webchat",
+      "entities": [
+        "dist/**/*.entity.ts"
+      ],
+      "synchronize": true,
+      "logging": true
     }),
   ],
 })

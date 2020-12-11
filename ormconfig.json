@@ -6,7 +6,7 @@
   "password": "admin",
   "database": "pg_chat",
   "entities": [
-    "dist/**/*.entity.js"
+    "dist/**/*.entity.ts"
   ],
   "synchronize": true,
   "logging": true
