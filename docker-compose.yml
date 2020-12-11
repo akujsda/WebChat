@@ -20,7 +20,7 @@ services:
     image: sosedoff/pgweb
     restart: on-failure
     ports:
-      - 5433:5433
+      - 5433:8081
     environment:
       - DATABASE_URL=postgres://tr:tr@db:5432/webchat?sslmode=disable
     depends_on:
