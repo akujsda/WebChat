@@ -1,9 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { User, UserId } from '../graphql';
 import { CreateUserDto } from '../dto/create-user.dto';
-
+import {UserRepository} from "../repository/users.repository"
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from './users.entity';
 @Injectable()
 export class UsersService {
+
+  constructor(
+    @InjectRepository(UserRepository)
+    private readonly userRepository: UserRepository,
+  ){}
+
   private readonly users: User[] = [];
 
   create(userDto: CreateUserDto): User {
@@ -14,11 +22,14 @@ export class UsersService {
     user.email = userDto.email;
     user.password = userDto.password
     this.users.push(user);
+    this.userRepository.newUserAsync(user)
     return user;
   }
 
   findAll(): User[] {
-    return this.users;
+
+    console.log( this.userRepository.getUsers())
+    return this.users
   }
 
   findOne(find: UserId): User {

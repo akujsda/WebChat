@@ -3,11 +3,12 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { VideoModule } from './videos/video.module';
 import {UsersModule} from "./users/users.module"
 import {TypeOrmModule} from "@nestjs/typeorm"
-
+import {MessageModule} from "./messages/messages.module"
 @Module({
   imports: [
     VideoModule,
     UsersModule,
+    MessageModule,
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
     }),
@@ -19,7 +20,7 @@ import {TypeOrmModule} from "@nestjs/typeorm"
       "password": "tr",
       "database": "webchat",
       "entities": [
-        "dist/**/*.entity.ts"
+        "dist/**/*.entity.js"
       ],
       "synchronize": true,
       "logging": true

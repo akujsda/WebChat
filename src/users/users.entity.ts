@@ -1,7 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { EnhancedBaseEntity } from 'src/entity/base.entity'
 
 @Entity('user')
-export class UserEntity {
+export class UserEntity extends EnhancedBaseEntity{
 	@PrimaryGeneratedColumn('uuid') id: string
 
 	@Column('varchar', { length: 500, unique: true })
@@ -12,5 +13,4 @@ export class UserEntity {
 
   @Column('varchar', { length: 500, unique: true })
   password: string
-
 }
