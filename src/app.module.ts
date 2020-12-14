@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { VideoModule } from './videos/video.module';
 import {UsersModule} from "./users/users.module"
 import {TypeOrmModule} from "@nestjs/typeorm"
 import {MessageModule} from "./messages/messages.module"
+import {UserRepository} from "src/repository/users.repository"
+import {MessagesRepository} from "src/repository/message.repository"
 @Module({
   imports: [
-    VideoModule,
     UsersModule,
     MessageModule,
+    UserRepository,
+    MessagesRepository,
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
     }),

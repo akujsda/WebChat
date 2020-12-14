@@ -1,8 +1,8 @@
-import { EntityRepository, Repository, In } from "typeorm"
+import { EntityRepository, Repository } from "typeorm"
 
 import { UserEntity } from "../users/users.entity"
 import { CreateUserDto } from "../dto/create-user.dto"
-import { User } from "src/graphql"
+import { User, UserId } from "src/graphql"
 
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> {
@@ -14,12 +14,16 @@ export class UserRepository extends Repository<UserEntity> {
     user.name = name
     user.email = email
     user.password = password
-
-    return await user.save()
+    user.save()
+    return await this.findOne({where:{id: user.id, name: user.name, email: user.email, password: user.password}})
   }
 
-  async getUsers(): Promise<User[]>{
-    const query = this.createQueryBuilder('user').getMany()
-    return await query
+
+  async getUsers(): Promise<UserEntity[]> {
+    return await this.find()
 }
+
+  async findUser(find: UserId): Promise<UserEntity> {
+    return await this.findOne({where:{id: find.id}})
+  }
 }

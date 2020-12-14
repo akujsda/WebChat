@@ -2,9 +2,9 @@ import { EntityRepository, Repository, In } from "typeorm"
 
 import { UserEntity } from "../users/users.entity"
 import { CreateMessageDto } from "../dto/create-message.dto"
-import { MessageEntity } from "src/messages/messages.entity"
+import { MessageEntity } from "../messages/messages.entity"
 
-@EntityRepository(UserEntity)
+@EntityRepository(MessageEntity)
 export class MessagesRepository extends Repository<MessageEntity> {
 
   async sendMessage(input: CreateMessageDto): Promise<MessageEntity> {
@@ -18,7 +18,7 @@ export class MessagesRepository extends Repository<MessageEntity> {
     return await message.save()
   }
 
-  async getMessages(): Promise<MessageEntity> {
-    return new MessageEntity
+  async getMessages(senderId: String): Promise<MessageEntity[]> {
+    return await this.find({where:{senderId: `${senderId}`}})
   }
 }

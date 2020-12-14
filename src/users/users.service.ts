@@ -4,17 +4,20 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import {UserRepository} from "../repository/users.repository"
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './users.entity';
+import { Connection } from 'typeorm';
 @Injectable()
 export class UsersService {
-
+  private userRepository: UserRepository
   constructor(
-    @InjectRepository(UserRepository)
-    private readonly userRepository: UserRepository,
-  ){}
+
+    private readonly connection: Connection,
+  ){
+    this.userRepository = this.connection.getCustomRepository(UserRepository);
+  }
 
   private readonly users: User[] = [];
 
-  create(userDto: CreateUserDto): User {
+ async create(userDto: CreateUserDto): Promise<User> {
     const listSize: number  = this.users.length + 1;
     const user: User = new User();
     user.id = listSize.toString();
@@ -22,17 +25,14 @@ export class UsersService {
     user.email = userDto.email;
     user.password = userDto.password
     this.users.push(user);
-    this.userRepository.newUserAsync(user)
-    return user;
+    return await this.userRepository.newUserAsync(user)
   }
 
-  findAll(): User[] {
-
-    console.log( this.userRepository.getUsers())
-    return this.users
+ async findAll(): Promise<UserEntity[]> {
+    return await this.userRepository.getUsers()
   }
 
-  findOne(find: UserId): User {
-    return this.users.find((user)=> user.id === find.id)
+ async findOne(find: UserId): Promise<User> {
+    return await this.userRepository.findUser(find)
   }
 }

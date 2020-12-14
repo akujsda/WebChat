@@ -7,10 +7,10 @@ import { CreateMessageDto } from '../dto/create-message.dto';
 export class MessagesResolvers {
   constructor(private readonly messagesService: MessagesService) {}
 
-  // @Query()
-  // async getMessages(@Args('senderId') sender: string) {
-  //   return this.messagesService.findAll(sender);
-  // }
+  @Query()
+  async getMessage(@Args('senderId') senderId: string) {
+    return this.messagesService.findAll(senderId);
+  }
 
   @Mutation('sendMessage')
   async create(@Args('input') args: CreateMessageDto): Promise<Message> {

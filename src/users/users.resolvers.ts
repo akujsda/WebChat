@@ -13,7 +13,7 @@ export class UsersResolvers {
   }
 
   @Query()
-  async getUserById(@Args('input') find: UserId) {
+  async getUserById(@Args('input') find: UserId): Promise<User> {
     return await this.userService.findOne(find)
   }
 
