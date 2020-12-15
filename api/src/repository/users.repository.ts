@@ -15,7 +15,7 @@ export class UserRepository extends Repository<UserEntity> {
     user.email = email
     user.password = password
     user.save()
-    return await this.findOne({where:{id: user.id, name: user.name, email: user.email, password: user.password}})
+    return await user
   }
 
   async userSignIn(input: UserSignInInput): Promise<string | undefined> {
