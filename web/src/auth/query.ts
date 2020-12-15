@@ -1,7 +1,7 @@
 import gql from "graphql-tag"
 
 export const UserSignUpM = gql`
-  mutation createUser($input: SignUpInput){
+  mutation createUser($input: CreateUserDto){
     createUser(input: $input){
       name
       email
