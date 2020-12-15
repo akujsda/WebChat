@@ -15,6 +15,11 @@ input UserId {
   id: ID!
 }
 
+input UserSignInInput {
+  email: String!
+  password: String!
+}
+
 type Mutation {
   createUser(input: NewUser!): User!
 }
@@ -25,4 +30,8 @@ type Query {
 
 type Query {
   users: [User!]!
+}
+
+type Mutation {
+  userSignIn(input: UserSignInInput): String!
 }

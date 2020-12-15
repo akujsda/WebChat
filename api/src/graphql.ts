@@ -22,6 +22,11 @@ export class UserId {
     id: string;
 }
 
+export class UserSignInInput {
+    email: string;
+    password: string;
+}
+
 export class Message {
     senderId: string;
     recipientId: string;
@@ -32,6 +37,8 @@ export abstract class IMutation {
     abstract sendMessage(input: NewMessage): Message | Promise<Message>;
 
     abstract createUser(input: NewUser): User | Promise<User>;
+
+    abstract userSignIn(input?: UserSignInInput): string | Promise<string>;
 }
 
 export abstract class IQuery {

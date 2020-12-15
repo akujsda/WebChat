@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { User, UserId } from '../graphql';
+import { User, UserId, UserSignInInput } from '../graphql';
 import { CreateUserDto } from '../dto/create-user.dto';
 import {UserRepository} from "../repository/users.repository"
 import { InjectRepository } from '@nestjs/typeorm';
@@ -27,6 +27,10 @@ export class UsersService {
     this.users.push(user);
     return await this.userRepository.newUserAsync(user)
   }
+
+ async userSignIn(input: UserSignInInput): Promise<string | undefined> {
+  return await this.userRepository.userSignIn(input)
+ }
 
  async findAll(): Promise<UserEntity[]> {
     return await this.userRepository.getUsers()
