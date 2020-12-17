@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect } from "react"
 import {TextField, Box, Button} from "@material-ui/core"
-import {useMutation} from "@apollo/client"
+import { useQuery, useMutation } from "@apollo/react-hooks"
 import {SendMessageM} from "./query"
 import {Message} from "./types"
 import {Formik, FormikProps} from "formik"
@@ -38,7 +38,7 @@ export const SendMessage = ({
   const [sendMessage] = useMutation<Message>(SendMessageM)
   const history= useHistory()
   const id= Cookies.get("userId")
-
+  const userName= Cookies.get("userName")
   useEffect(():void => {
     if(!id){
       history.push(rootRoutes.login)
@@ -54,18 +54,23 @@ export const SendMessage = ({
   }
 
 
-  const  sendMessageAsync = async(values:SendMessageInput):Promise<void> =>{
-    if(values){
+  const  sendMessageAsync = async(formikBag:FormikProps<SendMessageInput>):Promise<void> =>{
+
+    if(formikBag.values.text){
     try {
      await sendMessage({
         variables: {
           input: {
-            senderId:id,
-            text: values.text
+            senderId: id,
+            text: formikBag.values.text,
+            senderName: userName
           },
         },
       })
     } catch {}
+    finally{
+      formikBag.resetForm()
+    }
   }
   }
 
@@ -79,7 +84,7 @@ export const SendMessage = ({
     ): ReactElement<FormikProps<SendMessageInput>> =>{
       return(
         <Box width="300px" height="300px"  >
-      <form>
+
 
         <StyledTextField id="sendMessageInput" required  variant="outlined"
          onChange={():void=> setTextValue(formikBag)}
@@ -89,10 +94,10 @@ export const SendMessage = ({
           />
 
         <Box marginTop="10px" >
-          <Button type="submit" variant="contained" color="primary" onSubmit={():Promise<void>=> sendMessageAsync(formikBag.values)} >send </Button>
+          <Button  variant="contained" color="primary" onClick={():Promise<void>=> sendMessageAsync(formikBag)} >send </Button>
         </Box>
 
-      </form>
+
       </Box>
 )
 }}

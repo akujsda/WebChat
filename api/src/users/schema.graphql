@@ -20,6 +20,11 @@ input UserSignInInput {
   password: String!
 }
 
+type UserPayload {
+  id: String!
+  userName: String!
+}
+
 type Mutation {
   createUser(input: NewUser!): User
 }
@@ -33,5 +38,5 @@ type Query {
 }
 
 type Mutation {
-  userSignIn(input: UserSignInInput): String
+  userSignIn(input: UserSignInInput): UserPayload
 }

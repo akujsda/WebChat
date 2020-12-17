@@ -7,4 +7,7 @@ export class CreateMessageDto extends NewMessage {
 
   @IsNotEmpty()
   text: string;
+
+  @IsNotEmpty()
+  senderName: string;
 }

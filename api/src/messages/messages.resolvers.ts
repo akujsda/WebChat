@@ -27,7 +27,6 @@ export class MessagesResolvers {
   @Mutation('sendMessage')
   async create(@Args('input') args: CreateMessageDto): Promise<Message> {
      const createMessage: Message =  this.messagesService.sendMessage(args)
-    console.log(createMessage)
     this.pubSub.publish(NEW_MESSAGE, {newMessage: createMessage})
     return createMessage
   }

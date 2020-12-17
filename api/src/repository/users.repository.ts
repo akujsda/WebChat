@@ -2,7 +2,7 @@ import { EntityRepository, Repository } from "typeorm"
 
 import { UserEntity } from "../users/users.entity"
 import { CreateUserDto } from "../dto/create-user.dto"
-import { User, UserId, UserSignInInput } from "src/graphql"
+import { User, UserId, UserSignInInput, UserPayload } from "src/graphql"
 
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> {
@@ -23,10 +23,14 @@ export class UserRepository extends Repository<UserEntity> {
     }
   }
 
-  async userSignIn(input: UserSignInInput): Promise<string | undefined> {
+  async userSignIn(input: UserSignInInput): Promise<UserPayload | undefined> {
     const {email, password} = input
     const user = await this.findOne({where: {email: email, password: password}})
-    return user ? user.id : undefined
+    const userPayload = {
+      id: user.id,
+      userName: user.name
+    }
+    return user ? userPayload : undefined
   }
 
 

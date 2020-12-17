@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {rootRoutes} from '../route/routes'
 import {UserSignIn} from "./query"
-import {useQuery, useMutation} from '@apollo/client';
+import { useQuery, useMutation } from "@apollo/react-hooks"
 import { Formik, FormikProps, Form } from "formik"
 import * as yup from "yup";
 import {useHistory} from "react-router-dom"
@@ -89,10 +89,11 @@ export default function SignIn({
             password: values.password
           },
         },
-      }).then((response):void =>{
+      }).then((response: any):void =>{
          if (response){
           setUserId(get(response, "data.userSignIn"))
-          Cookies.set("userId", get(response, "data.userSignIn"))
+          Cookies.set("userId", get(response, "data.userSignIn.id"))
+          Cookies.set("userName", get(response, "data.userSignIn.userName"))
           history.push(rootRoutes.chat)
          }
         })

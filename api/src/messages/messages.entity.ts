@@ -15,4 +15,6 @@ export class MessageEntity extends EnhancedBaseEntity{
   @Column('varchar', { length: 500, unique: false })
   date: Date
 
+  @Column('varchar', { length: 500, unique: false })
+  senderName: string
 }

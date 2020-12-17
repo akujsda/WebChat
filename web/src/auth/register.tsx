@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {rootRoutes} from '../route/routes'
 import {UserSignUpM} from './query'
-import {useQuery, useMutation} from '@apollo/client';
+import { useQuery, useMutation } from "@apollo/react-hooks"
 import {User} from './types'
 import { Formik, FormikProps, Form } from "formik"
 import * as yup from "yup";

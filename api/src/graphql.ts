@@ -9,6 +9,7 @@
 export class NewMessage {
     senderId: string;
     text: string;
+    senderName: string;
 }
 
 export class NewUser {
@@ -30,6 +31,7 @@ export class Message {
     senderId: string;
     text: string;
     date: string;
+    senderName: string;
 }
 
 export abstract class IMutation {
@@ -37,7 +39,7 @@ export abstract class IMutation {
 
     abstract createUser(input: NewUser): User | Promise<User>;
 
-    abstract userSignIn(input?: UserSignInInput): string | Promise<string>;
+    abstract userSignIn(input?: UserSignInInput): UserPayload | Promise<UserPayload>;
 }
 
 export abstract class IQuery {
@@ -57,4 +59,9 @@ export class User {
     name: string;
     email: string;
     password: string;
+}
+
+export class UserPayload {
+    id: string;
+    userName: string;
 }

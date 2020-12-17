@@ -12,6 +12,9 @@ export const UserSignUpM = gql`
 
 export const UserSignIn = gql`
   mutation userSignIn($input: UserSignInInput!){
-    userSignIn(input: $input)
+    userSignIn(input: $input){
+      id
+      userName
+    }
   }
 `

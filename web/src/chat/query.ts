@@ -13,7 +13,7 @@ export const GetMessagesQ = gql`
   query getMessages($senderId: String){
     getMessages(senderId: $senderId){
       text
-      senderId
+      senderName
       date
     }
   }
@@ -23,8 +23,8 @@ export const NewMessageS = gql`
   subscription{
     newMessage {
     text
-    senderId
     date
+    senderName
   }
   }
 

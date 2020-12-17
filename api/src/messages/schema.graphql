@@ -2,11 +2,13 @@ type Message {
   senderId: String!
   text: String!
   date: String!
+  senderName: String!
 }
 
 input NewMessage {
   senderId: String!
   text: String!
+  senderName: String!
 }
 
 

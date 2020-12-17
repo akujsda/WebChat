@@ -21,6 +21,8 @@ export class MessagesService {
       const message: Message = new Message();
       message.text = messageDto.text
       message.senderId = messageDto.senderId
+      message.date= String(new Date())
+      message.senderName= messageDto.senderName
       this.messagesRepository.sendMessage(message)
       return message
 

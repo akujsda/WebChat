@@ -8,12 +8,14 @@ import { MessageEntity } from "../messages/messages.entity"
 export class MessagesRepository extends Repository<MessageEntity> {
 
   async sendMessage(input: CreateMessageDto): Promise<MessageEntity> {
-    const {  senderId, text } = input
+    const {  senderId, text, senderName } = input
 
     const message = new MessageEntity
     message.senderId = senderId
     message.text = text
+    message.senderName =  senderName
     message.date = new Date()
+
     return await message.save()
   }
 
