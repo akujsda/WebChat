@@ -17,7 +17,7 @@ export class UsersService {
 
   private readonly users: User[] = [];
 
- async create(userDto: CreateUserDto): Promise<User> {
+ async create(userDto: CreateUserDto): Promise<User | undefined> {
     const listSize: number  = this.users.length + 1;
     const user: User = new User();
     user.id = listSize.toString();
@@ -36,7 +36,7 @@ export class UsersService {
     return await this.userRepository.getUsers()
   }
 
- async findOne(find: UserId): Promise<User> {
+ async findOne(find: string): Promise<User> {
     return await this.userRepository.findUser(find)
   }
 }

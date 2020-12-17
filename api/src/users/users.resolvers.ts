@@ -18,12 +18,12 @@ export class UsersResolvers {
   }
 
   @Query()
-  async getUserById(@Args('input') find: UserId): Promise<User> {
+  async getUserById(@Args('input') find: string): Promise<User> {
     return await this.userService.findOne(find)
   }
 
   @Mutation('createUser')
-  async create(@Args('input') args: CreateUserDto): Promise<User> {
+  async create(@Args('input') args: CreateUserDto): Promise<User | undefined> {
     return await this.userService.create(args);
   }
 }

@@ -1,11 +1,10 @@
 type Message {
   senderId: String!
-  recipientId: String!
   text: String!
+  date: String!
 }
 
 input NewMessage {
-  recipientId: String!
   senderId: String!
   text: String!
 }
@@ -16,5 +15,9 @@ type Mutation {
 }
 
 type Query {
-  getMessage(senderId: String!): [Message!]!
+  getMessages(senderId: String): [Message!]!
+}
+
+type Subscription {
+  newMessage: Message
 }

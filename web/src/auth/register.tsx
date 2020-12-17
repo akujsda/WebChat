@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement, useRef } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,6 +16,31 @@ import {rootRoutes} from '../route/routes'
 import {UserSignUpM} from './query'
 import {useQuery, useMutation} from '@apollo/client';
 import {User} from './types'
+import { Formik, FormikProps, Form } from "formik"
+import * as yup from "yup";
+import {useHistory} from "react-router-dom"
+
+interface CreateAccountInput {
+  email: string
+  password: string
+  name: string
+}
+
+const initValues: CreateAccountInput = {
+  email:"",
+  password:"",
+  name:""
+}
+
+
+ const validationSchema = yup.object().shape({
+  email: yup.string().required(),
+  password: yup.string().required().min(6),
+  name: yup.string().required()
+})
+
+
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -38,22 +63,67 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-
+  const nameInputReference= useRef<HTMLInputElement | null>(null)
+  const emailInputReference= useRef<HTMLInputElement | null>(null)
+  const passwordInputReference= useRef<HTMLInputElement | null>(null)
   const [userSignUp]=useMutation<User>(UserSignUpM)
-  try {
-    userSignUp({
-      variables: {
-        input: {
-          email: "first@first.com",
-          name: "firstUser",
-          password: "firstpassword"
+  const history =useHistory()
+
+  const handleSubmit = (event:any , formikBag:any): void =>{
+    console.log(event.target, formikBag)
+  }
+
+  const setNameValue = (formikBag:any): void=>{
+    const nameInput:any = document.getElementById("name")
+    if(nameInput ){
+      formikBag.setFieldValue("name", nameInput.value)
+      console.log(nameInput.value);
+
+    }
+
+  }
+
+  const setPasswordValue = (formikBag:any): void=>{
+    const passwordInput:any = document.getElementById("password")
+    if(passwordInput){
+    formikBag.setFieldValue("password", passwordInput.value)
+    }
+  }
+
+  const setEmailValue = (formikBag:any): void=>{
+    const emailInput:any = document.getElementById("email")
+    if(emailInput){
+    formikBag.setFieldValue("email", emailInput.value)
+    }
+  }
+
+  const  userSignUpAsync = async(values:CreateAccountInput):Promise<void> =>{
+    try {
+     await userSignUp({
+        variables: {
+          input: {
+            email: values.email,
+            name: values.name,
+            password: values.password
+          },
         },
-      },
-    }).then((response)=> console.log(response))
-  } catch {}
+      })
+    } catch {}
+    finally{
+      history.push(rootRoutes.login)
+    }
+  }
 
 
   return (
+    <Formik
+      onSubmit={(values):void => console.log(values)}
+      initialValues={initValues}
+      validationSchema={validationSchema}
+      component={(
+        formikBag: FormikProps<CreateAccountInput>
+    ): ReactElement<FormikProps<CreateAccountInput>> =>{
+      return(
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -63,7 +133,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <Form id="test" className={classes.form}  >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -74,6 +144,8 @@ export default function SignUp() {
                 id="name"
                 label="Name"
                 autoFocus
+                ref={nameInputReference}
+                onBlur={():void=>setNameValue(formikBag)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -84,9 +156,8 @@ export default function SignUp() {
                 id="email"
                 label="Email Address"
                 name="email"
-                inputProps={{
-                  autoComplete: 'off'
-               }}
+                ref={emailInputReference}
+                onBlur={():void=>setEmailValue(formikBag)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -98,18 +169,17 @@ export default function SignUp() {
                 label="Password"
                 type="password"
                 id="password"
-                inputProps={{
-                  autoComplete: 'off'
-               }}
+                ref={passwordInputReference}
+                onBlur={():void=>setPasswordValue( formikBag)}
               />
             </Grid>
           </Grid>
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={():Promise<void> => userSignUpAsync(formikBag.values)}
           >
             Sign Up
           </Button>
@@ -120,8 +190,12 @@ export default function SignUp() {
               </Link>
             </Grid>
           </Grid>
-        </form>
+        </Form>
       </div>
     </Container>
+      )
+    }}
+    />
+
   );
 }

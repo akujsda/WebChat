@@ -21,7 +21,7 @@ input UserSignInInput {
 }
 
 type Mutation {
-  createUser(input: NewUser!): User!
+  createUser(input: NewUser!): User
 }
 
 type Query {
@@ -33,5 +33,5 @@ type Query {
 }
 
 type Mutation {
-  userSignIn(input: UserSignInInput): String!
+  userSignIn(input: UserSignInInput): String
 }

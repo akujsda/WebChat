@@ -8,17 +8,16 @@ import { MessageEntity } from "../messages/messages.entity"
 export class MessagesRepository extends Repository<MessageEntity> {
 
   async sendMessage(input: CreateMessageDto): Promise<MessageEntity> {
-    const { recipientId, senderId, text } = input
+    const {  senderId, text } = input
 
     const message = new MessageEntity
-    message.recipientId = recipientId
     message.senderId = senderId
     message.text = text
-
+    message.date = new Date()
     return await message.save()
   }
 
-  async getMessages(senderId: String): Promise<MessageEntity[]> {
-    return await this.find({where:{senderId: `${senderId}`}})
+  async getMessages(): Promise<MessageEntity[]> {
+    return await this.find()
   }
 }

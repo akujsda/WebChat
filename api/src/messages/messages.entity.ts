@@ -10,10 +10,9 @@ export class MessageEntity extends EnhancedBaseEntity{
   senderId: string
 
   @Column('varchar', { length: 500, unique: false })
-  recipientId: string
-
-  @Column('varchar', { length: 500, unique: false })
   text: string
 
+  @Column('varchar', { length: 500, unique: false })
+  date: Date
 
 }

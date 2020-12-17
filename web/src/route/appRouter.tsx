@@ -5,10 +5,10 @@ import {rootRoutes} from './routes'
 import SignIn from "../auth/auth"
 import SignUp from "../auth/register"
 import UsersList from "../users/usersList"
-
+import Chat from "../chat/chat"
 
 const AppRouter: React.FC=():React.ReactElement=> {
-
+  const [userId, setUserId]=useState<string | null>(null)
 
   return (
     <Router >
@@ -16,7 +16,7 @@ const AppRouter: React.FC=():React.ReactElement=> {
       </Route>
 
       <Route path={rootRoutes.login} exact>
-        <SignIn />
+        <SignIn setUserId={setUserId} />
       </Route>
 
       <Route path={rootRoutes.register} exact>
@@ -24,7 +24,7 @@ const AppRouter: React.FC=():React.ReactElement=> {
       </Route>
 
       <Route path={rootRoutes.chat} exact>
-        <UsersList />
+        <Chat userId={userId} />
       </Route>
     </Router>
   );

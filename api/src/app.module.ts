@@ -5,6 +5,8 @@ import {TypeOrmModule} from "@nestjs/typeorm"
 import {MessageModule} from "./messages/messages.module"
 import {UserRepository} from "src/repository/users.repository"
 import {MessagesRepository} from "src/repository/message.repository"
+import { PubSub } from 'graphql-subscriptions';
+
 @Module({
   imports: [
     UsersModule,
@@ -13,6 +15,10 @@ import {MessagesRepository} from "src/repository/message.repository"
     MessagesRepository,
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
+      installSubscriptionHandlers: true,
+      subscriptions: {
+        keepAlive: 5000,
+      }
     }),
     TypeOrmModule.forRoot({
       "type": "postgres",
@@ -28,5 +34,11 @@ import {MessagesRepository} from "src/repository/message.repository"
       "logging": true
     }),
   ],
+  providers: [
+    {
+      provide: 'PUB_SUB',
+      useValue: new PubSub(),
+    },
+  ]
 })
 export class AppModule {}

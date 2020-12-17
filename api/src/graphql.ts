@@ -7,7 +7,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export class NewMessage {
-    recipientId: string;
     senderId: string;
     text: string;
 }
@@ -29,8 +28,8 @@ export class UserSignInInput {
 
 export class Message {
     senderId: string;
-    recipientId: string;
     text: string;
+    date: string;
 }
 
 export abstract class IMutation {
@@ -42,11 +41,15 @@ export abstract class IMutation {
 }
 
 export abstract class IQuery {
-    abstract getMessage(senderId: string): Message[] | Promise<Message[]>;
+    abstract getMessages(senderId?: string): Message[] | Promise<Message[]>;
 
     abstract getUserById(input?: UserId): User | Promise<User>;
 
     abstract users(): User[] | Promise<User[]>;
+}
+
+export abstract class ISubscription {
+    abstract newMessage(): Message | Promise<Message>;
 }
 
 export class User {
