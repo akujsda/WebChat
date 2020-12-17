@@ -8,6 +8,11 @@ import * as yup from 'yup'
 import {useHistory} from "react-router-dom"
 import { rootRoutes } from "../route/routes"
 import Cookies from "js-cookie"
+import styled from 'styled-components'
+
+const StyledTextField=styled(TextField)`
+  width:300px;
+`
 
 interface SendMessageInput {
   senderId: string
@@ -38,7 +43,7 @@ export const SendMessage = ({
     if(!id){
       history.push(rootRoutes.login)
     }
-  }, [id])
+  }, [history, id])
 
 
   const setTextValue = (formikBag:any): void=>{
@@ -73,16 +78,22 @@ export const SendMessage = ({
       formikBag
     ): ReactElement<FormikProps<SendMessageInput>> =>{
       return(
+        <Box width="300px" height="300px"  >
       <form>
 
-        <TextField id="sendMessageInput" required  variant="outlined" onChange={():void=> setTextValue(formikBag)} />
+        <StyledTextField id="sendMessageInput" required  variant="outlined"
+         onChange={():void=> setTextValue(formikBag)}
+         inputProps={{
+           autoComplete:"none"
+         }}
+          />
 
-        <Box marginTop="10px">
-          <Button variant="contained" color="primary" onClick={():Promise<void>=> sendMessageAsync(formikBag.values)} >send </Button>
+        <Box marginTop="10px" >
+          <Button type="submit" variant="contained" color="primary" onSubmit={():Promise<void>=> sendMessageAsync(formikBag.values)} >send </Button>
         </Box>
 
       </form>
-
+      </Box>
 )
 }}
 />

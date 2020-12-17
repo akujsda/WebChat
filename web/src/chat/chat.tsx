@@ -13,9 +13,14 @@ const Chat =({
   const id= Cookies.get("userId")
   if (id){
     return (
-      <Box>
-        <MessageList />
-        <SendMessage userId={userId} />
+      <Box width="100vw" height="90vh" display="flex" justifyContent="center" >
+        <Box>
+          <MessageList />
+        </Box>
+
+        <Box width="50vw" display="flex" justifyContent="center" alignItems="center">
+          <SendMessage userId={userId} />
+        </Box>
       </Box>
     )
   }

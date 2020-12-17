@@ -35,6 +35,7 @@ export class UserRepository extends Repository<UserEntity> {
 }
 
   async findUser(find: string): Promise<UserEntity> {
-    return await this.findOne({where:{id: find}})
+    const user = await this.findOne({where:{id: find}})
+    return user
   }
 }
