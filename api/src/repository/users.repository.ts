@@ -3,15 +3,18 @@ import { EntityRepository, Repository } from "typeorm"
 import { UserEntity } from "../users/users.entity"
 import { CreateUserDto } from "../dto/create-user.dto"
 import { User, UserId, UserSignInInput, UserPayload } from "src/graphql"
+import { NotFoundException } from "@nestjs/common"
 
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> {
 
-  async newUserAsync(input: CreateUserDto): Promise<UserEntity | undefined> {
-    const { name, email, password } = input
+  async newUserAsync(input: User): Promise<UserEntity | undefined> {
+    const { name, email, password, salt } = input
     const userExist = await this.findOne({where: {email: email, password: password}})
     if (!userExist){
+
     const user = this.create()
+    user.salt = salt
     user.name = name
     user.email = email
     user.password = password
@@ -25,13 +28,18 @@ export class UserRepository extends Repository<UserEntity> {
 
   async userSignIn(input: UserSignInInput): Promise<UserPayload | undefined> {
     const {email, password} = input
-    const user = await this.findOne({where: {email: email, password: password}})
+
+    const user = await this.findOne({where: {email: email}})
+    console.log(await user.validatePasswordAsync(password));
+
+   if (!await user.validatePasswordAsync(password)){
+    throw new NotFoundException("password or email was incorrect")
+   }
     const userPayload = {
-      id: user ? user.id : undefined,
-      userName: user ? user.name : undefined
+      id: user.id,
+      userName: user.name
     }
-    console.log(user)
-    return user !== undefined ? userPayload : undefined
+    return userPayload
   }
 
 
