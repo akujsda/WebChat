@@ -51,4 +51,15 @@ export class UserRepository extends Repository<UserEntity> {
     const user = await this.findOne({where:{id: find}})
     return user
   }
+
+  async findByName(name: string): Promise<UserEntity> {
+    const user = await this.findOne({where:{name: name}})
+
+    if(!await this.findOne({where:{name: name}})){
+      throw new NotFoundException("user is not exist")
+    }
+
+    return user
+
+  }
 }

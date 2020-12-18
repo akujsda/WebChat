@@ -2,7 +2,8 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { User, UserId, UserSignInInput, UserPayload } from '../graphql';
 import { UsersService } from './users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
-
+import { UseGuards } from '@nestjs/common';
+import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 @Resolver('User')
 export class UsersResolvers {
   constructor(private readonly userService: UsersService) {}

@@ -19,6 +19,8 @@ export class UserEntity extends EnhancedBaseEntity{
   @Column({ nullable: true })
   salt: string
 
+  token: string
+
   async validatePasswordAsync(password: string): Promise<boolean> {
     if (!this.salt || !this.password) {
       throw new BadRequestException("incorrect password")

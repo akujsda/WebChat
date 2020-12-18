@@ -48,4 +48,8 @@ export class UsersService {
  async findOne(find: string): Promise<User> {
     return await this.userRepository.findUser(find)
   }
+
+  async findByName(name: string): Promise<User> {
+    return await this.userRepository.findByName(name)
+  }
 }
