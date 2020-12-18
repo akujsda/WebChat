@@ -146,6 +146,7 @@ export default function SignUp() {
                 autoFocus
                 ref={nameInputReference}
                 onBlur={():void=>setNameValue(formikBag)}
+                autoComplete= "new-password"
               />
             </Grid>
             <Grid item xs={12}>
@@ -158,6 +159,7 @@ export default function SignUp() {
                 name="email"
                 ref={emailInputReference}
                 onBlur={():void=>setEmailValue(formikBag)}
+                autoComplete= "new-password"
               />
             </Grid>
             <Grid item xs={12}>
@@ -171,6 +173,7 @@ export default function SignUp() {
                 id="password"
                 ref={passwordInputReference}
                 onBlur={():void=>setPasswordValue( formikBag)}
+                autoComplete= "new-password"
               />
             </Grid>
           </Grid>

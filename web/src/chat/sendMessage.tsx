@@ -1,6 +1,6 @@
-import React, { ReactElement, useEffect } from "react"
+import React, { ReactElement, useEffect, Fragment } from "react"
 import {TextField, Box, Button} from "@material-ui/core"
-import { useQuery, useMutation } from "@apollo/react-hooks"
+import {  useMutation } from "@apollo/react-hooks"
 import {SendMessageM} from "./query"
 import {Message} from "./types"
 import {Formik, FormikProps} from "formik"
@@ -9,9 +9,13 @@ import {useHistory} from "react-router-dom"
 import { rootRoutes } from "../route/routes"
 import Cookies from "js-cookie"
 import styled from 'styled-components'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const StyledTextField=styled(TextField)`
   width:300px;
+  border:1px solid #3f51b5;
+  border-radius:5px;
 `
 
 interface SendMessageInput {
@@ -25,7 +29,7 @@ const initialValues:SendMessageInput = {
 }
 
 const validationSchema = yup.object().shape({
-  text: yup.string().required(),
+  text: yup.string().required().max(500),
   senderId: yup.string().required(),
 })
 
@@ -54,9 +58,10 @@ export const SendMessage = ({
   }
 
 
-  const  sendMessageAsync = async(formikBag:FormikProps<SendMessageInput>):Promise<void> =>{
-
-    if(formikBag.values.text){
+  const  sendMessageAsync = async(formikBag:FormikProps<SendMessageInput>, event:any):Promise<void> =>{
+    event.preventDefault()
+    console.log(formikBag.errors.text)
+    if(formikBag.values.text && !formikBag.errors.text){
     try {
      await sendMessage({
         variables: {
@@ -71,10 +76,16 @@ export const SendMessage = ({
     finally{
       formikBag.resetForm()
     }
+  }else{
+    toast.error("Max lenght 500 simbols",{
+      position: toast.POSITION.BOTTOM_RIGHT
+    })
+    formikBag.resetForm()
   }
   }
 
   return (
+    <Fragment>
     <Formik
     onSubmit={(values):void => console.log(values)}
     initialValues={initialValues}
@@ -83,10 +94,12 @@ export const SendMessage = ({
       formikBag
     ): ReactElement<FormikProps<SendMessageInput>> =>{
       return(
-        <Box width="300px" height="300px"  >
+        <Box width="300px" height="150px"  >
 
 
-        <StyledTextField id="sendMessageInput" required  variant="outlined"
+        <StyledTextField
+         id="sendMessageInput" required  variant="outlined"
+         autoComplete="off"
          onChange={():void=> setTextValue(formikBag)}
          inputProps={{
            autoComplete:"none"
@@ -94,7 +107,7 @@ export const SendMessage = ({
           />
 
         <Box marginTop="10px" >
-          <Button  variant="contained" color="primary" onClick={():Promise<void>=> sendMessageAsync(formikBag)} >send </Button>
+          <Button  variant="contained" color="primary" onClick={(event):Promise<void>=> sendMessageAsync(formikBag, event)} >send </Button>
         </Box>
 
 
@@ -102,4 +115,6 @@ export const SendMessage = ({
 )
 }}
 />
+<ToastContainer />
+</Fragment>
   )}

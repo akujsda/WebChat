@@ -1,23 +1,23 @@
 import React, {useState} from 'react';
 
-import {BrowserRouter as Router, Route, useHistory} from 'react-router-dom';
+import {BrowserRouter as Router, Route, } from 'react-router-dom';
 import {rootRoutes} from './routes'
 import SignIn from "../auth/auth"
 import SignUp from "../auth/register"
-import UsersList from "../users/usersList"
 import Chat from "../chat/chat"
-import {User} from "../users/user"
+import Header from "../ui/header"
+
 const AppRouter: React.FC=():React.ReactElement=> {
   const [userId, setUserId]=useState<string | null>(null)
 
   return (
     <Router >
-      <Route path={rootRoutes.root} exact>
-        <User />
+      <Route path={rootRoutes.root}>
+        <Header />
       </Route>
 
       <Route path={rootRoutes.login} exact>
-        <SignIn setUserId={setUserId} />
+        <SignIn setUserId={setUserId} userId={userId} />
       </Route>
 
       <Route path={rootRoutes.register} exact>

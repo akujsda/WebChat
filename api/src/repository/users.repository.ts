@@ -27,10 +27,11 @@ export class UserRepository extends Repository<UserEntity> {
     const {email, password} = input
     const user = await this.findOne({where: {email: email, password: password}})
     const userPayload = {
-      id: user.id,
-      userName: user.name
+      id: user ? user.id : undefined,
+      userName: user ? user.name : undefined
     }
-    return user ? userPayload : undefined
+    console.log(user)
+    return user !== undefined ? userPayload : undefined
   }
 
 

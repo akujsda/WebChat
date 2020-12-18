@@ -7,6 +7,8 @@ import styled from 'styled-components'
 
 
 const StyledList= styled.ul`
+  padding-left:10px;
+  padding-right:10px;
   list-style:none;
 `
 
@@ -24,14 +26,13 @@ const StyledItemList= styled.li`
 export const MessageList = ():ReactElement =>{
   const id = Cookies.get("userId")
   const [messageList, setMessageList]= useState([""])
-  const { data, loading, refetch, subscribeToMore } = useQuery(GetMessagesQ, {
+  const { data, loading } = useQuery(GetMessagesQ, {
     variables: {
       senderId: id
     },
   })
 
   useEffect(() => {
-    console.log(data);
 
     setMessageList(data.getMessages)
   }, [loading, data])
@@ -41,32 +42,26 @@ export const MessageList = ():ReactElement =>{
 
 
   useEffect(() => {
-    if(!!subData ){
+    const list = document.getElementById("messageList")
+    if(!!subData && list ){
 
       const newMessageList= [...messageList, subData.newMessage]
 
       setMessageList(newMessageList)
+      list.scrollTop = list.scrollHeight
     }
 
   }, [subLoading, subData])
 
 
 
-const formatDate=(date:string):string => {
-  return (
-    date.split(".")[0].split("T").join("  ")
-  )
-}
-
-
 
   return (
-    <Box height="90vh" width="50vw" overflow="scroll">
-      <StyledList>
+    <Box width="100vw" height="70vh" id="messageList" overflow="scroll">
+      <StyledList >
         {!loading && messageList  && messageList.map((message:any, index:number)=> <StyledItemList key={index} >
-
+          <Box textAlign="left" marginLeft="10px">{message.senderName}: </Box>
           <Box marginTop="20px" >{message.text}</Box>
-
         </StyledItemList>
         )}
       </StyledList>

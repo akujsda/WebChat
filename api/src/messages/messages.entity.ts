@@ -1,6 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
 import { EnhancedBaseEntity } from 'src/entity/base.entity'
-import {UserEntity} from "../users/users.entity"
 
 @Entity('message')
 export class MessageEntity extends EnhancedBaseEntity{
