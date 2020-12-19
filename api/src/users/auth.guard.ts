@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
     return true
   }
 
-  validateToken (auth: string){
+   validateToken (auth: string){
     if(auth.split(' ')[0] !== 'Bearer') {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }
