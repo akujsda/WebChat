@@ -33,8 +33,8 @@ export const MessageList = ():ReactElement =>{
   })
 
   useEffect(() => {
-
-    setMessageList(data.getMessages)
+    console.log(data)
+    // setMessageList(data.getMessages)
   }, [loading, data])
 
   const {data: subData, loading: subLoading} = useSubscription(NewMessageS)
@@ -58,13 +58,13 @@ export const MessageList = ():ReactElement =>{
 
   return (
     <Box width="100vw" height="70vh" id="messageList" overflow="scroll">
-      <StyledList >
+      {/* <StyledList >
         {!loading && messageList  && messageList.map((message:any, index:number)=> <StyledItemList key={index} >
           <Box textAlign="left" marginLeft="10px">{message.senderName}: </Box>
           <Box marginTop="20px" >{message.text}</Box>
         </StyledItemList>
         )}
-      </StyledList>
+      </StyledList> */}
     </Box>
   )
 }

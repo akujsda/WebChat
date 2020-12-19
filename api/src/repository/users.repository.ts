@@ -35,6 +35,9 @@ export class UserRepository extends Repository<UserEntity> {
    if (!await user.validatePasswordAsync(password)){
     throw new NotFoundException("password or email was incorrect")
    }
+   if (!user){
+    throw new NotFoundException("user not found")
+   }
     const userPayload = {
       id: user.id,
       userName: user.name
@@ -48,7 +51,7 @@ export class UserRepository extends Repository<UserEntity> {
 }
 
   async findUser(find: string): Promise<UserEntity> {
-    const user = await this.findOne({where:{id: find}})
+    const user = await this.findOne({where:{email: find}})
     return user
   }
 

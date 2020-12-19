@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { User, UserId, UserSignInInput, UserPayload } from '../graphql';
 import { CreateUserDto } from '../dto/create-user.dto';
 import {UserRepository} from "../repository/users.repository"
@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './users.entity';
 import { Connection } from 'typeorm';
 import * as bcrypt from "bcryptjs"
-
+import * as jwt from "jsonwebtoken"
 @Injectable()
 export class UsersService {
   private userRepository: UserRepository
@@ -23,6 +23,27 @@ export class UsersService {
     return bcrypt.hash(password, salt)
   }
 
+  async createToken({email, password}:UserSignInInput){
+    const user = await this.userRepository.findUser(email)
+    if(!user){
+     throw new NotFoundException("password or email was incorrect")
+    }else{
+     const validateUser = await this.userRepository.userSignIn({email, password})
+
+     if(validateUser){
+       const userPayload= {
+        id: user.id,
+        userName: user.name,
+        token:  jwt.sign({email, password}, "secret")
+      }
+
+      return userPayload
+       }
+
+     }
+    }
+
+
  async create(userDto: CreateUserDto): Promise<User | undefined> {
     const salt = await bcrypt.genSalt(10)
 
@@ -38,7 +59,12 @@ export class UsersService {
   }
 
  async userSignIn(input: UserSignInInput): Promise<UserPayload | undefined> {
-  return await this.userRepository.userSignIn(input)
+   const user = await this.userRepository.findUser(input.email)
+   if(!user){
+    throw new NotFoundException("password or email was incorrect")
+   }else{
+    return await this.userRepository.userSignIn(input)
+   }
  }
 
  async findAll(): Promise<UserEntity[]> {

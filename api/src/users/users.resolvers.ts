@@ -1,9 +1,10 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { User, UserId, UserSignInInput, UserPayload } from '../graphql';
+import { Args, Mutation, Query, Resolver, Context } from '@nestjs/graphql';
+import { User, UserId, UserSignInInput, UserPayload, SignInPayload } from '../graphql';
 import { UsersService } from './users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
+import { AuthGuard } from "./auth.guard"
 @Resolver('User')
 export class UsersResolvers {
   constructor(private readonly userService: UsersService) {}
@@ -13,9 +14,15 @@ export class UsersResolvers {
     return this.userService.findAll();
   }
 
+  @Query()
+  @UseGuards(new AuthGuard())
+  me(@Context('user') user: User){
+    return user
+  }
+
   @Mutation()
-  async userSignIn(@Args('input')input: UserSignInInput):Promise<UserPayload | undefined> {
-    return await this.userService.userSignIn(input)
+  async userSignIn(@Args('input')input: UserSignInInput):Promise<SignInPayload> {
+    return await this.userService.createToken(input)
   }
 
   @Query()

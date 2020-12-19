@@ -15,13 +15,13 @@ const Chat =({
   const history = useHistory()
 
 
-  useEffect(() => {
-    !id &&
-    history.push(rootRoutes.login)
-  }, [history, id])
+  // useEffect(() => {
+  //   !id &&
+  //   history.push(rootRoutes.login)
+  // }, [history, id])
 
 
-  if (id){
+
     return (
       <Box width="100vw" height="90vh" display="flex" justifyContent="center" >
         <Box >
@@ -33,8 +33,7 @@ const Chat =({
         </Box>
       </Box>
     )
-  }
-  return <></>
+
 }
 
 export default Chat

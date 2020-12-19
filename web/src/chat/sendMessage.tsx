@@ -43,11 +43,11 @@ export const SendMessage = ({
   const history= useHistory()
   const id= Cookies.get("userId")
   const userName= Cookies.get("userName")
-  useEffect(():void => {
-    if(!id){
-      history.push(rootRoutes.login)
-    }
-  }, [history, id])
+  // useEffect(():void => {
+  //   if(!id){
+  //     history.push(rootRoutes.login)
+  //   }
+  // }, [history, id])
 
 
   const setTextValue = (formikBag:any): void=>{

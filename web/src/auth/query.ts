@@ -15,6 +15,7 @@ export const UserSignIn = gql`
     userSignIn(input: $input){
       id
       userName
+      token
     }
   }
 `

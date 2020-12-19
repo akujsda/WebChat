@@ -15,6 +15,7 @@ import { PubSub } from 'graphql-subscriptions';
     MessagesRepository,
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
+      context:({req})=>({headers: req.headers}),
       installSubscriptionHandlers: true,
       subscriptions: {
         keepAlive: 5000,

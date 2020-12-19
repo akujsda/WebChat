@@ -108,12 +108,16 @@ export default function SignIn({
           setUserId(get(response, "data.userSignIn"))
           Cookies.set("userId", get(response, "data.userSignIn.id"))
           Cookies.set("userName", get(response, "data.userSignIn.userName"))
+          Cookies.set("token", get(response, "data.userSignIn.token"))
           history.push(rootRoutes.chat)
          }else{
           toast.error("Email or password entered incorrect", {
             position: toast.POSITION.BOTTOM_RIGHT
           })
+        console.log(response);
+
          }
+        console.log(get(response, "data.userSignIn"));
         })
     } catch {}
   }else{

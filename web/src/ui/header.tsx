@@ -9,13 +9,13 @@ const Header = (): ReactElement =>{
 
   const history=useHistory()
 
-  useEffect(() => {
-    const id= Cookies.get("userId")
-    const name = Cookies.get("userName")
-    if(name && id){
-      history.push(rootRoutes.chat)
-    }
-  }, [history])
+  // useEffect(() => {
+  //   const id= Cookies.get("userId")
+  //   const name = Cookies.get("userName")
+  //   if(name && id){
+  //     history.push(rootRoutes.chat)
+  //   }
+  // }, [history])
 
   const logout =():void=>{
     Cookies.remove("userId")

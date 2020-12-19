@@ -39,7 +39,7 @@ export abstract class IMutation {
 
     abstract createUser(input: NewUser): User | Promise<User>;
 
-    abstract userSignIn(input?: UserSignInInput): UserPayload | Promise<UserPayload>;
+    abstract userSignIn(input?: UserSignInInput): SignInPayload | Promise<SignInPayload>;
 }
 
 export abstract class IQuery {
@@ -48,6 +48,8 @@ export abstract class IQuery {
     abstract getUserById(input?: UserId): User | Promise<User>;
 
     abstract users(): User[] | Promise<User[]>;
+
+    abstract me(): User | Promise<User>;
 }
 
 export abstract class ISubscription {
@@ -65,4 +67,10 @@ export class User {
 export class UserPayload {
     id: string;
     userName: string;
+}
+
+export class SignInPayload {
+    id: string;
+    userName: string;
+    token: string;
 }
