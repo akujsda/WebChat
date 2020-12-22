@@ -1,13 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 const { graphqlHTTP } = require('express-graphql');
-import express from "express"
+// import * as express from "express"
+// import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule,{
     logger: console,
   });
-  app.use(express.static("public"))
+  // app.use(express.static(join(process.cwd(), '../public')));
+
   app.use('/graphiql', graphqlHTTP({
     endpointURL: '/graphql',
     subscriptionsEndpoint: `/subscriptions`,

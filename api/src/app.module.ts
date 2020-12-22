@@ -7,12 +7,14 @@ import {UserRepository} from "src/repository/users.repository"
 import {MessagesRepository} from "src/repository/message.repository"
 import { PubSub } from 'graphql-subscriptions';
 
+
 @Module({
   imports: [
     UsersModule,
     MessageModule,
     UserRepository,
     MessagesRepository,
+
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
       context:({req})=>({headers: req.headers}),
