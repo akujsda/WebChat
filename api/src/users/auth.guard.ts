@@ -6,7 +6,6 @@ import * as jwt from "jsonwebtoken"
 export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext){
     const ctx = await GqlExecutionContext.create(context).getContext()
-    console.log(ctx);
 
     if(!ctx.req.autorization) {
       return false

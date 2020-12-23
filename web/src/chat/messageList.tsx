@@ -33,12 +33,12 @@ export const MessageList = ():ReactElement =>{
   })
 
   useEffect(() => {
-    console.log(data)
+
     setMessageList(data.getMessages)
   }, [loading, data])
 
   const {data: subData, loading: subLoading} = useSubscription(NewMessageS)
-  console.log(data, subData);
+
 
 
   useEffect(() => {

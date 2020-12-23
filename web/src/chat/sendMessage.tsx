@@ -60,7 +60,6 @@ export const SendMessage = ({
 
   const  sendMessageAsync = async(formikBag:FormikProps<SendMessageInput>, event:any):Promise<void> =>{
     event.preventDefault()
-    console.log(formikBag.errors.text)
     if(formikBag.values.text && !formikBag.errors.text){
     try {
      await sendMessage({

@@ -11,6 +11,9 @@ const wsLink = new WebSocketLink({
   uri: `ws://localhost:5000/graphql`,
   options: {
     reconnect: true,
+    connectionParams: () => ({
+      autorization: Cookies.get("token") ? `Bearer ${Cookies.get("token")}` : "",
+    }),
   },
 });
 

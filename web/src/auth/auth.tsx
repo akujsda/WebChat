@@ -19,16 +19,9 @@ import get from "lodash/get"
 import Cookies from "js-cookie"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import * as bcrypt from "bcryptjs"
 
-const test = async()=>{
-  const salt = await bcrypt.genSalt(10)
-  const password ="1234123"
-const hash = await bcrypt.hash(password, "$2a$10$Fv476yh.Mf5w4qGAzB1MwO")
-  console.log(hash);
 
-}
-test()
+
 interface SignInInput {
   email:string
   password:string
