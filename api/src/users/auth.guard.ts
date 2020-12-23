@@ -5,11 +5,14 @@ import * as jwt from "jsonwebtoken"
 @Injectable()
 export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext){
-    const ctx = GqlExecutionContext.create(context).getContext()
-    if(!ctx.headers.autorization) {
+    const ctx = await GqlExecutionContext.create(context).getContext()
+    console.log(ctx);
+
+    if(!ctx.req.autorization) {
       return false
     }
-    ctx.user = await this.validateToken(ctx.headers.autorization)
+
+    ctx.user = await this.validateToken(ctx.req.autorization)
     return true
   }
 
