@@ -1,9 +1,8 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Message, UserId } from '../graphql';
 import { CreateMessageDto } from '../dto/create-message.dto';
 import {MessagesRepository} from "../repository/message.repository"
 import {UserRepository} from "../repository/users.repository"
-import { InjectRepository } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 
 @Injectable()

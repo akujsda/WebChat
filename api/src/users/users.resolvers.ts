@@ -1,9 +1,8 @@
 import { Args, Mutation, Query, Resolver, Context } from '@nestjs/graphql';
-import { User, UserId, UserSignInInput, UserPayload, SignInPayload } from '../graphql';
+import { User, UserSignInInput,  SignInPayload } from '../graphql';
 import { UsersService } from './users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UseGuards } from '@nestjs/common';
-import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { AuthGuard } from "./auth.guard"
 @Resolver('User')
 export class UsersResolvers {
