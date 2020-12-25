@@ -21,25 +21,25 @@ const styles = StyleSheet.create({
 
 interface InputProps {
   placeholder:string
-  reference: any
   formikBag:FormikProps<FormTypes>
   name:string
+  secureTextEntry?:boolean
 }
 
 
 export const Input = ({
   placeholder,
-  reference,
   formikBag,
-  name
+  name,
+  secureTextEntry
 }:InputProps):ReactElement =>{
   return (
     <View style={styles.container}>
       <TextInput
-        ref={reference}
         style={styles.input}
         placeholder={placeholder}
         onChangeText={text => formikBag.setFieldValue(name, text)}
+        secureTextEntry={secureTextEntry}
       />
     </View>
   )

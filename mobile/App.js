@@ -18,11 +18,20 @@ import {
 import { Auth } from "./src/auth/auth"
 import { NavigationContainer } from '@react-navigation/native';
 import { Routes } from "./routes/routes"
+import { ApolloProvider, InMemoryCache, ApolloClient } from '@apollo/client'
+import client from "./src/apolloSetup"
+import { ApolloProvider as ApolloHooksProvider } from '@apollo/react-hooks'
+
+
 const App: () => React$Node = () => {
+
+
   return (
-    <>
-      <Routes />
-    </>
+    <ApolloProvider client={client}>
+      <ApolloHooksProvider client={client}>
+        <Routes />
+      </ApolloHooksProvider>
+    </ApolloProvider>
   );
 };
 

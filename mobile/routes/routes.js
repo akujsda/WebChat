@@ -7,6 +7,7 @@ import { Register } from "../src/register/register"
 
 export const Routes = () => {
   return (
+
     <Router>
       <Scene key={rootRoutes.root}>
         <Scene key={rootRoutes.login} component={Auth} hideNavBar={true} initial={true}></Scene>
@@ -14,5 +15,6 @@ export const Routes = () => {
         {/* <Scene key={rootRoutes.chat}></Scene> */}
       </Scene>
     </Router>
+
   )
 }
