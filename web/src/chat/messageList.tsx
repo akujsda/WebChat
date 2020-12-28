@@ -25,6 +25,7 @@ const StyledItemList= styled.li`
 
 export const MessageList = ():ReactElement =>{
   const id = Cookies.get("userId")
+  const name = Cookies.get("userName")
   const [messageList, setMessageList]= useState([""])
   const { data, loading } = useQuery(GetMessagesQ, {
     variables: {
@@ -63,8 +64,8 @@ export const MessageList = ():ReactElement =>{
         {!loading && messageList  && messageList.map((message:any, index:number)=> {
           return (
             <StyledItemList key={index} >
-              <Box textAlign="left" marginLeft="10px">{message.senderName}: </Box>
-              <Box marginTop="20px" >{message.text}</Box>
+              <Box textAlign="left" marginLeft="10px" padding="5px" color={name === message.senderName ? "#3f51b5" : "black"}>{message.senderName}: </Box>
+              <Box marginTop="20px" padding="5px">{message.text}</Box>
             </StyledItemList>
           )
         }

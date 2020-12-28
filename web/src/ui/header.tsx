@@ -19,7 +19,8 @@ const Header = (): ReactElement =>{
       history.push(rootRoutes.chat)
       setLoggedIn(true)
     }
-  }, [history])
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     setButtonVisible(!window.location.href.includes(rootRoutes.login))
@@ -28,6 +29,7 @@ const Header = (): ReactElement =>{
   const logout =():void=>{
     Cookies.remove("userId")
     Cookies.remove("userName")
+    Cookies.remove("token")
     history.push(rootRoutes.login)
     setLoggedIn(false)
   }

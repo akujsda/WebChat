@@ -83,7 +83,7 @@ export const SendMessage = ():ReactElement =>{
       formikBag
     ): ReactElement<FormikProps<SendMessageInput>> =>{
       return(
-        <Box width="300px" height="150px" position="sticky" bottom="120px" >
+        <Box width="300px"   >
         <StyledTextField
          id="sendMessageInput" required  variant="outlined"
          autoComplete="off"
@@ -96,7 +96,6 @@ export const SendMessage = ():ReactElement =>{
         <Box marginTop="10px" >
           <Button  variant="contained" color="primary" onClick={():Promise<void>=> sendMessageAsync(formikBag)} >send </Button>
         </Box>
-
 
       </Box>
         )
