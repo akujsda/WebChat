@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import React, { ReactElement, Fragment } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -19,7 +20,7 @@ import get from "lodash/get"
 import Cookies from "js-cookie"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import {useIntl} from 'react-intl';
 
 
 interface SignInInput {
@@ -33,7 +34,7 @@ const initialValues:SignInInput= {
 }
 
 const validationSchema = yup.object().shape({
-  email: yup.string().required().test("err", "err", ((value): boolean => !!value && value.includes("@"))),
+  email: yup.string().required().matches(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/),
   password: yup.string().required().min(6),
 })
 
@@ -62,7 +63,7 @@ export default function SignIn () {
   const classes = useStyles();
   const history = useHistory()
   const [userSignIn]=useMutation<string>(UserSignIn)
-
+  const intl=useIntl().messages;
   const setPasswordValue = (formikBag:any): void=>{
     const passwordInput:any = document.getElementById("password")
     if(passwordInput){
@@ -93,15 +94,15 @@ export default function SignIn () {
           Cookies.set("userName", get(response, "data.userSignIn.userName"))
           Cookies.set("token", get(response, "data.userSignIn.token"))
           history.push(rootRoutes.chat)
-         }else{
-          toast.error("Email or password entered incorrect", {
-            position: toast.POSITION.BOTTOM_RIGHT
-          })
          }
         })
-    } catch {}
+    } catch {
+      toast.error(`${intl.incorrectEmail}`, {
+        position: toast.POSITION.BOTTOM_RIGHT
+      })
+    }
   }else{
-    toast.error("Email or password entered incorrect", {
+    toast.error(`${intl.incorrectEmail}`, {
       position: toast.POSITION.BOTTOM_RIGHT
     })
   }
@@ -133,7 +134,7 @@ export default function SignIn () {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label={`${intl.emailLong}`}
               name="email"
               autoComplete= "new-password"
               inputProps={{
@@ -163,12 +164,12 @@ export default function SignIn () {
               className={classes.submit}
               onClick={():Promise<void>=> userSignIpAsync(formikBag)}
             >
-              Sign In
+              {`${intl.signIn}`}
             </Button>
             <Grid container>
               <Grid item>
                 <Link href={rootRoutes.register} variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {`${intl.dontHaveAccount}`}
                 </Link>
               </Grid>
             </Grid>

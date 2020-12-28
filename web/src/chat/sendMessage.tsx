@@ -83,7 +83,7 @@ export const SendMessage = ():ReactElement =>{
       formikBag
     ): ReactElement<FormikProps<SendMessageInput>> =>{
       return(
-        <Box width="300px" height="150px" >
+        <Box width="300px" height="150px" position="sticky" bottom="120px" >
         <StyledTextField
          id="sendMessageInput" required  variant="outlined"
          autoComplete="off"
@@ -99,9 +99,9 @@ export const SendMessage = ():ReactElement =>{
 
 
       </Box>
-)
-}}
-/>
-<ToastContainer />
-</Fragment>
+        )
+        }}
+    />
+    <ToastContainer />
+  </Fragment>
   )}

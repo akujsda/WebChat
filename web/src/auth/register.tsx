@@ -1,4 +1,5 @@
-import React, { ReactElement, useRef } from 'react';
+/* eslint-disable no-useless-escape */
+import React, { ReactElement, Fragment } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,6 +17,10 @@ import {User} from './types'
 import { Formik, FormikProps, Form } from "formik"
 import * as yup from "yup";
 import {useHistory} from "react-router-dom"
+import {useIntl} from 'react-intl';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ExecutionResult } from 'graphql';
 
 interface CreateAccountInput {
   email: string
@@ -31,7 +36,7 @@ const initValues: CreateAccountInput = {
 
 
  const validationSchema = yup.object().shape({
-  email: yup.string().required(),
+  email: yup.string().required().matches(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/),
   password: yup.string().required().min(6),
   name: yup.string().required()
 })
@@ -50,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -60,44 +65,40 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-  const nameInputReference= useRef<HTMLInputElement | null>(null)
-  const emailInputReference= useRef<HTMLInputElement | null>(null)
-  const passwordInputReference= useRef<HTMLInputElement | null>(null)
   const [userSignUp]=useMutation<User>(UserSignUpM)
   const history =useHistory()
+  const intl = useIntl().messages
 
   const setNameValue = (formikBag:any): void=>{
     const nameInput:any = document.getElementById("name")
     if(nameInput ){
       formikBag.setFieldValue("name", nameInput.value)
-      console.log(nameInput.value);
-
     }
-
   }
 
   const setPasswordValue = (formikBag:any): void=>{
     const passwordInput:any = document.getElementById("password")
     if(passwordInput){
-    formikBag.setFieldValue("password", passwordInput.value)
+      formikBag.setFieldValue("password", passwordInput.value)
     }
   }
 
   const setEmailValue = (formikBag:any): void=>{
     const emailInput:any = document.getElementById("email")
     if(emailInput){
-    formikBag.setFieldValue("email", emailInput.value)
+      formikBag.setFieldValue("email", emailInput.value)
     }
   }
 
-  const  userSignUpAsync = async(values:CreateAccountInput):Promise<void> =>{
+  const  userSignUpAsync = async(formikBag:FormikProps<CreateAccountInput>):Promise<void> =>{
+    if (!formikBag.errors.email && !formikBag.errors.name && !formikBag.errors.password){
     try {
      await userSignUp({
         variables: {
           input: {
-            email: values.email,
-            name: values.name,
-            password: values.password
+            email: formikBag.values.email,
+            name: formikBag.values.name,
+            password: formikBag.values.password
           },
         },
       })
@@ -105,12 +106,18 @@ export default function SignUp() {
     finally{
       history.push(rootRoutes.login)
     }
+  }else{
+    toast.error(`${intl.incorrectEmail}`, {
+      position: toast.POSITION.BOTTOM_RIGHT
+    })
+  }
   }
 
 
   return (
+    <Fragment>
     <Formik
-      onSubmit={userSignUpAsync}
+      onSubmit={():Promise<ExecutionResult<User>> =>userSignUp()}
       initialValues={initValues}
       validationSchema={validationSchema}
       component={(
@@ -124,7 +131,7 @@ export default function SignUp() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          {`${intl.signUp}`}
         </Typography>
         <Form id="test" className={classes.form}  >
           <Grid container spacing={2}>
@@ -135,9 +142,8 @@ export default function SignUp() {
                 required
                 fullWidth
                 id="name"
-                label="Name"
+                label={`${intl.name}`}
                 autoFocus
-                ref={nameInputReference}
                 onBlur={():void=>setNameValue(formikBag)}
                 autoComplete= "new-password"
               />
@@ -148,9 +154,8 @@ export default function SignUp() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label={`${intl.emailLong}`}
                 name="email"
-                ref={emailInputReference}
                 onBlur={():void=>setEmailValue(formikBag)}
                 autoComplete= "new-password"
               />
@@ -161,11 +166,10 @@ export default function SignUp() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label={`${intl.password}`}
                 type="password"
                 id="password"
-                ref={passwordInputReference}
-                onBlur={():void=>setPasswordValue( formikBag)}
+                onBlur={():void=>setPasswordValue(formikBag)}
                 autoComplete= "new-password"
               />
             </Grid>
@@ -175,14 +179,14 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={():Promise<void> => userSignUpAsync(formikBag.values)}
+            onClick={():Promise<void> => userSignUpAsync(formikBag)}
           >
-            Sign Up
+            {`${intl.signUp}`}
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
               <Link href={rootRoutes.login} variant="body2">
-                Already have an account? Sign in
+                {`${intl.alreadyHaveAccount}`}
               </Link>
             </Grid>
           </Grid>
@@ -192,6 +196,7 @@ export default function SignUp() {
       )
     }}
     />
-
+    <ToastContainer />
+  </Fragment>
   );
 }

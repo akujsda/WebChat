@@ -51,6 +51,7 @@ export const MessageList = ():ReactElement =>{
       list.scrollTop = list.scrollHeight
     }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subLoading, subData])
 
 
@@ -59,10 +60,14 @@ export const MessageList = ():ReactElement =>{
   return (
     <Box width="100vw" height="70vh" id="messageList" overflow="scroll">
       <StyledList >
-        {!loading && messageList  && messageList.map((message:any, index:number)=> <StyledItemList key={index} >
-          <Box textAlign="left" marginLeft="10px">{message.senderName}: </Box>
-          <Box marginTop="20px" >{message.text}</Box>
-        </StyledItemList>
+        {!loading && messageList  && messageList.map((message:any, index:number)=> {
+          return (
+            <StyledItemList key={index} >
+              <Box textAlign="left" marginLeft="10px">{message.senderName}: </Box>
+              <Box marginTop="20px" >{message.text}</Box>
+            </StyledItemList>
+          )
+        }
         )}
       </StyledList>
     </Box>

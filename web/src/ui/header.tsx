@@ -1,48 +1,55 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import {Box,  Button} from '@material-ui/core'
 import Cookies from "js-cookie"
 import {useHistory} from "react-router-dom"
 import {rootRoutes} from "../route/routes"
-
+import {useIntl} from 'react-intl';
 
 const Header = (): ReactElement =>{
-
+  const intl = useIntl().messages
   const history=useHistory()
+  const [isLoggedIn, setLoggedIn] = useState<boolean>(false)
+  const [isButtonVisible, setButtonVisible] = useState<boolean>(false)
 
-  // useEffect(() => {
-  //   const id= Cookies.get("userId")
-  //   const name = Cookies.get("userName")
-  //   if(name && id){
-  //     history.push(rootRoutes.chat)
-  //   }
-  // }, [history])
+
+  useEffect(() => {
+    const id= Cookies.get("userId")
+    const name = Cookies.get("userName")
+    if(name && id){
+      history.push(rootRoutes.chat)
+      setLoggedIn(true)
+    }
+  }, [history])
+
+  useEffect(() => {
+    setButtonVisible(!window.location.href.includes(rootRoutes.login))
+  }, [])
 
   const logout =():void=>{
     Cookies.remove("userId")
     Cookies.remove("userName")
-     history.push(rootRoutes.login)
-
+    history.push(rootRoutes.login)
+    setLoggedIn(false)
   }
 
   const login =():void =>{
+    setLoggedIn(true)
     history.push(rootRoutes.login)
   }
 
   return (
     <Box width="100vw" height="50px" bgcolor="#3f51b5" display="flex" justifyContent="center" alignItems="center">
 
-      <Box width="50vw" display="flex" justifyContent="flex-start" marginLeft="10px" fontSize="32px" color="white" fontWeight="500" > WebChat </Box>
+      <Box width="50vw" display="flex" justifyContent="flex-start" marginLeft="10px" fontSize="32px" color="white" fontWeight="500" > {`${intl.webChat}`} </Box>
 
       <Box display="flex" justifyContent="flex-end" width="50vw">
-      {!Cookies.get("userId") ?
-        (<Box bgcolor="white" border="1px solid white" borderRadius="10px" margin="5px 10px" height="40px" textAlign="center">
-          <Button  onClick={login} color="primary">login</Button>
-        </Box>)
-        :
-        (<Box bgcolor="white" border="1px solid white" borderRadius="10px" margin="5px 10px" height="40px" textAlign="center">
-          <Button  onClick={logout} color="primary" >logout</Button>
-        </Box>)
-      }
+
+        {isButtonVisible && (
+        <Box bgcolor="white" border="1px solid white" borderRadius="10px" margin="5px 10px" height="40px" textAlign="center">
+          <Button  onClick={isLoggedIn ? logout : login} color="primary">{isLoggedIn ? `${intl.signOut}` : `${intl.signIn}`}</Button>
+        </Box>
+        )}
+
       </Box>
     </Box>
   )

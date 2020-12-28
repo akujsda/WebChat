@@ -24,7 +24,7 @@ const Chat = ():ReactElement =>{
           <MessageList />
         </Box>
 
-        <Box  position="fixed" bottom="0">
+        <Box  position="fixed" zIndex="10" bgcolor="white" bottom="0">
           <SendMessage />
         </Box>
       </Box>
