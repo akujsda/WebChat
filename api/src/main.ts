@@ -13,6 +13,6 @@ async function bootstrap() {
     subscriptionsEndpoint: `/subscriptions`,
   }));
 
-  await app.listen(5000);
+  await app.listen(80);
 }
 bootstrap();
