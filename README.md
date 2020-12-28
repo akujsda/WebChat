@@ -8,3 +8,7 @@ FOR API
 FOR WEB
 ### `cd web`
 ### `npm start`
+
+LINK TO APP
+
+### http://iamnotsere.ga/
