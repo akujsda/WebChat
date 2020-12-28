@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from 'react'
+import React, { ReactElement } from 'react'
 import {Box,  Button} from '@material-ui/core'
 import Cookies from "js-cookie"
 import {useHistory} from "react-router-dom"

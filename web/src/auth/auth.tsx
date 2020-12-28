@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -57,15 +57,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface Props{
-  setUserId: (value: string)=>void
-  userId: string | null
-}
 
-export default function SignIn({
-  setUserId,
-  userId
-}:Props) {
+export default function SignIn () {
   const classes = useStyles();
   const history = useHistory()
   const [userSignIn]=useMutation<string>(UserSignIn)
@@ -86,8 +79,6 @@ export default function SignIn({
 
   const  userSignIpAsync = async(formikBag:FormikProps<SignInInput>):Promise<void> =>{
     if(!formikBag.errors.email && !formikBag.errors.password){
-      console.log(formikBag.values);
-
     try {
      await userSignIn({
         variables: {
@@ -98,7 +89,6 @@ export default function SignIn({
         },
       }).then((response: any):void =>{
          if (get(response, "data.userSignIn")){
-          setUserId(get(response, "data.userSignIn"))
           Cookies.set("userId", get(response, "data.userSignIn.id"))
           Cookies.set("userName", get(response, "data.userSignIn.userName"))
           Cookies.set("token", get(response, "data.userSignIn.token"))
@@ -107,10 +97,7 @@ export default function SignIn({
           toast.error("Email or password entered incorrect", {
             position: toast.POSITION.BOTTOM_RIGHT
           })
-        console.log(response);
-
          }
-        console.log(get(response, "data.userSignIn"));
         })
     } catch {}
   }else{

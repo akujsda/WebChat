@@ -1,16 +1,15 @@
-import React, { ReactElement, useEffect, Fragment } from "react"
+import React, { ReactElement, Fragment } from "react"
 import {TextField, Box, Button} from "@material-ui/core"
 import {  useMutation } from "@apollo/react-hooks"
 import {SendMessageM} from "./query"
 import {Message} from "./types"
 import {Formik, FormikProps} from "formik"
 import * as yup from 'yup'
-import {useHistory} from "react-router-dom"
-import { rootRoutes } from "../route/routes"
 import Cookies from "js-cookie"
 import styled from 'styled-components'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ExecutionResult } from "graphql"
 
 const StyledTextField=styled(TextField)`
   width:300px;
@@ -33,21 +32,13 @@ const validationSchema = yup.object().shape({
   senderId: yup.string().required(),
 })
 
-interface Props{
-  userId: string | null
-}
-export const SendMessage = ({
-  userId
-}:Props):ReactElement =>{
+
+export const SendMessage = ():ReactElement =>{
   const [sendMessage] = useMutation<Message>(SendMessageM)
-  const history= useHistory()
   const id= Cookies.get("userId")
   const userName= Cookies.get("userName")
-  // useEffect(():void => {
-  //   if(!id){
-  //     history.push(rootRoutes.login)
-  //   }
-  // }, [history, id])
+
+
 
 
   const setTextValue = (formikBag:any): void=>{
@@ -58,8 +49,7 @@ export const SendMessage = ({
   }
 
 
-  const  sendMessageAsync = async(formikBag:FormikProps<SendMessageInput>, event:any):Promise<void> =>{
-    event.preventDefault()
+  const  sendMessageAsync = async(formikBag:FormikProps<SendMessageInput>):Promise<void> =>{
     if(formikBag.values.text && !formikBag.errors.text){
     try {
      await sendMessage({
@@ -86,16 +76,14 @@ export const SendMessage = ({
   return (
     <Fragment>
     <Formik
-    onSubmit={(values):void => console.log(values)}
+    onSubmit={():Promise<ExecutionResult<Message>> =>sendMessage()}
     initialValues={initialValues}
     validationSchema={validationSchema}
     component={(
       formikBag
     ): ReactElement<FormikProps<SendMessageInput>> =>{
       return(
-        <Box width="300px" height="150px"  >
-
-
+        <Box width="300px" height="150px" >
         <StyledTextField
          id="sendMessageInput" required  variant="outlined"
          autoComplete="off"
@@ -106,7 +94,7 @@ export const SendMessage = ({
           />
 
         <Box marginTop="10px" >
-          <Button  variant="contained" color="primary" onClick={(event):Promise<void>=> sendMessageAsync(formikBag, event)} >send </Button>
+          <Button  variant="contained" color="primary" onClick={():Promise<void>=> sendMessageAsync(formikBag)} >send </Button>
         </Box>
 
 

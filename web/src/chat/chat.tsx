@@ -5,20 +5,16 @@ import {SendMessage} from "./sendMessage"
 import Cookies from "js-cookie"
 import {useHistory} from "react-router-dom"
 import {rootRoutes} from "../route/routes"
-interface Props{
-  userId: string | null
-}
-const Chat =({
-  userId
-}:Props):ReactElement =>{
+
+
+const Chat = ():ReactElement =>{
   const id= Cookies.get("userId")
   const history = useHistory()
 
-
-  // useEffect(() => {
-  //   !id &&
-  //   history.push(rootRoutes.login)
-  // }, [history, id])
+  useEffect(() => {
+    !id &&
+    history.push(rootRoutes.login)
+  }, [history, id])
 
 
 
@@ -29,7 +25,7 @@ const Chat =({
         </Box>
 
         <Box  position="fixed" bottom="0">
-          <SendMessage userId={userId} />
+          <SendMessage />
         </Box>
       </Box>
     )

@@ -3,18 +3,15 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {rootRoutes} from '../route/routes'
 import {UserSignUpM} from './query'
-import { useQuery, useMutation } from "@apollo/react-hooks"
+import { useMutation } from "@apollo/react-hooks"
 import {User} from './types'
 import { Formik, FormikProps, Form } from "formik"
 import * as yup from "yup";
@@ -69,10 +66,6 @@ export default function SignUp() {
   const [userSignUp]=useMutation<User>(UserSignUpM)
   const history =useHistory()
 
-  const handleSubmit = (event:any , formikBag:any): void =>{
-    console.log(event.target, formikBag)
-  }
-
   const setNameValue = (formikBag:any): void=>{
     const nameInput:any = document.getElementById("name")
     if(nameInput ){
@@ -117,7 +110,7 @@ export default function SignUp() {
 
   return (
     <Formik
-      onSubmit={(values):void => console.log(values)}
+      onSubmit={userSignUpAsync}
       initialValues={initValues}
       validationSchema={validationSchema}
       component={(

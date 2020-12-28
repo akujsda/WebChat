@@ -15,9 +15,9 @@ import { join } from 'path';
     MessageModule,
     UserRepository,
     MessagesRepository,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client'),
-    }),
+     ServeStaticModule.forRoot({
+       rootPath: join(__dirname, '..', 'client'),
+     }),
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
       context: ({ req, connection }) => connection ? { req: connection.context } : { req: req.headers },

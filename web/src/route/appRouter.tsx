@@ -8,7 +8,6 @@ import Chat from "../chat/chat"
 import Header from "../ui/header"
 
 const AppRouter: React.FC=():React.ReactElement=> {
-  const [userId, setUserId]=useState<string | null>(null)
 
   return (
     <Router >
@@ -17,7 +16,7 @@ const AppRouter: React.FC=():React.ReactElement=> {
       </Route>
 
       <Route path={rootRoutes.login} exact>
-        <SignIn setUserId={setUserId} userId={userId} />
+        <SignIn  />
       </Route>
 
       <Route path={rootRoutes.register} exact>
@@ -25,7 +24,7 @@ const AppRouter: React.FC=():React.ReactElement=> {
       </Route>
 
       <Route path={rootRoutes.chat} exact>
-        <Chat userId={userId} />
+        <Chat  />
       </Route>
     </Router>
   );
