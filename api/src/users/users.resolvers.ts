@@ -3,7 +3,7 @@ import { User, UserSignInInput,  SignInPayload } from '../graphql';
 import { UsersService } from './users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from "./auth.guard"
+import { AuthGuard } from "./auth.guard";
 @Resolver('User')
 export class UsersResolvers {
   constructor(private readonly userService: UsersService) {}
@@ -15,18 +15,18 @@ export class UsersResolvers {
 
   @Query()
   @UseGuards(new AuthGuard())
-  me(@Context('user') user: User){
-    return user
+  me(@Context('user') user: User) {
+    return user;
   }
 
   @Mutation()
   async userSignIn(@Args('input')input: UserSignInInput):Promise<SignInPayload> {
-    return await this.userService.createToken(input)
+    return await this.userService.createToken(input);
   }
 
   @Query()
   async getUserById(@Args('input') find: string): Promise<User> {
-    return await this.userService.findOne(find)
+    return await this.userService.findOne(find);
   }
 
   @Mutation('createUser')

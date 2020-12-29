@@ -25,12 +25,12 @@ export class UsersService {
 
   async createToken({email, password}:UserSignInInput){
     const user = await this.userRepository.findUser(email)
-    if(!user){
+    if (!user){
      throw new NotFoundException("password or email was incorrect")
-    }else{
+    } else {
      const validateUser = await this.userRepository.userSignIn({email, password})
 
-     if(validateUser){
+     if (validateUser) {
        const userPayload= {
         id: user.id,
         userName: user.name,
@@ -49,20 +49,20 @@ export class UsersService {
 
     const listSize: number  = this.users.length + 1;
     const user: User = new User();
-    user.salt = await salt
+    user.salt = await salt;
     user.id = listSize.toString();
     user.name = userDto.name;
     user.email = userDto.email;
-    user.password = await this.hashPasswordAsync(userDto.password, user.salt)
+    user.password = await this.hashPasswordAsync(userDto.password, user.salt);
     this.users.push(user);
-    return await this.userRepository.newUserAsync(user)
+    return await this.userRepository.newUserAsync(user);
   }
 
  async userSignIn(input: UserSignInInput): Promise<UserPayload | undefined> {
    const user = await this.userRepository.findUser(input.email)
-   if(!user){
+   if (!user) {
     throw new NotFoundException("password or email was incorrect")
-   }else{
+   } else {
     return await this.userRepository.userSignIn(input)
    }
  }

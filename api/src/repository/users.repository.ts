@@ -1,9 +1,8 @@
-import { EntityRepository, Repository } from "typeorm"
+import { EntityRepository, Repository } from "typeorm";
 
-import { UserEntity } from "../users/users.entity"
-import { CreateUserDto } from "../dto/create-user.dto"
-import { User, UserId, UserSignInInput, UserPayload } from "src/graphql"
-import { NotFoundException } from "@nestjs/common"
+import { UserEntity } from "../users/users.entity";
+import { User, UserSignInInput, UserPayload } from "src/graphql";
+import { NotFoundException } from "@nestjs/common";
 
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> {
@@ -13,16 +12,16 @@ export class UserRepository extends Repository<UserEntity> {
     const userExist = await this.findOne({where: {email: email, password: password}})
     if (!userExist){
 
-    const user = this.create()
-    user.salt = salt
-    user.name = name
-    user.email = email
-    user.password = password
-    user.id
-    user.save()
+    const user = this.create();
+    user.salt = salt;
+    user.name = name;
+    user.email = email;
+    user.password = password;
+    user.id;
+    user.save();
     return await this.findOne({where: {email: email, password: password}})
     } else {
-      return undefined
+      return undefined;
     }
   }
 

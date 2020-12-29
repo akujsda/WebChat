@@ -145,7 +145,9 @@ export default function SignUp() {
                 label={`${intl.name}`}
                 autoFocus
                 onBlur={():void=>setNameValue(formikBag)}
-                autoComplete= "new-password"
+                inputProps={{
+                  autoComplete:"off"
+                }}
               />
             </Grid>
             <Grid item xs={12}>

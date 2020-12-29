@@ -47,7 +47,7 @@ const Header = (): ReactElement =>{
       <Box display="flex" justifyContent="flex-end" width="50vw">
 
         {isButtonVisible && (
-        <Box bgcolor="white" border="1px solid white" borderRadius="10px" margin="5px 10px" height="40px" textAlign="center">
+        <Box bgcolor="white" border="1px solid white" borderRadius="10px" margin="10px" height="35px" textAlign="center">
           <Button  onClick={isLoggedIn ? logout : login} color="primary">{isLoggedIn ? `${intl.signOut}` : `${intl.signIn}`}</Button>
         </Box>
         )}

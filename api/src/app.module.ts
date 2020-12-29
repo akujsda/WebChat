@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import {UsersModule} from "./users/users.module"
-import {TypeOrmModule} from "@nestjs/typeorm"
-import {MessageModule} from "./messages/messages.module"
-import {UserRepository} from "src/repository/users.repository"
-import {MessagesRepository} from "src/repository/message.repository"
+import {UsersModule} from "./users/users.module";
+import {TypeOrmModule} from "@nestjs/typeorm";
+import {MessageModule} from "./messages/messages.module";
+import {UserRepository} from "src/repository/users.repository";
+import {MessagesRepository} from "src/repository/message.repository";
 import { PubSub } from 'graphql-subscriptions';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+require('dotenv').config();
 
 @Module({
   imports: [
@@ -28,11 +29,11 @@ import { join } from 'path';
     }),
     TypeOrmModule.forRoot({
       "type": "postgres",
-      "host": "18.222.35.142",
-      "port": 5432,
-      "username": "tr",
-      "password": "tr",
-      "database": "webchat",
+      "host": process.env.POSTGRES_HOST,
+      "port": +process.env.POSTGRES_PORT,
+      "username": process.env.POSTGRES_USER,
+      "password": process.env.POSTGRES_PASSWORD,
+      "database": process.env.POSTGRES_DATABASE,
       "entities": [
         "dist/**/*.entity.js"
       ],

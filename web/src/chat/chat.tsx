@@ -24,12 +24,12 @@ const Chat = ():ReactElement =>{
           <MessageList />
         </Box>
 
-        <Box 
-          width="100vw" 
-          position="absolute" 
-          zIndex="10" 
-          bgcolor="white" 
-          bottom="0" 
+        <Box
+          width="100vw"
+          position="fixed"
+          zIndex="10"
+          bgcolor="white"
+          bottom="0"
           display="flex"
           justifyContent="center"
         >

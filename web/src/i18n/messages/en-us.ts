@@ -13,6 +13,7 @@ export default {
 "alreadyHaveAccount":"Already have an account? Sign in",
 "dontHaveAccount":"Don't have an account? Sign Up",
 "incorrectEmail":"Email or password entered incorrect",
-"webChat":"WebChat"
+"webChat":"WebChat",
+"send":"Send"
 }
 }

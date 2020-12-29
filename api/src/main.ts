@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 const { graphqlHTTP } = require('express-graphql');
-
+require('dotenv').config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule,{
@@ -13,6 +13,6 @@ async function bootstrap() {
     subscriptionsEndpoint: `/subscriptions`,
   }));
 
-  await app.listen(80);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
