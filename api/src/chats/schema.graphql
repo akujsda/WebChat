@@ -29,5 +29,5 @@ type Query {
 }
 
 type Query {
-  test: String!
+  getMyChats(token: String!): [Chat]
 }

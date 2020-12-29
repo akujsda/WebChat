@@ -5,7 +5,7 @@ import { EnhancedBaseEntity } from 'src/entity/base.entity'
 export class MessageEntity extends EnhancedBaseEntity{
 	@PrimaryGeneratedColumn('uuid') id: string
 
-  @Column('varchar', { length: 500, unique: false })
+  @Column('varchar', { length: 1000, unique: false })
   text: string
 
   @Column('varchar', { length: 500, unique: false })

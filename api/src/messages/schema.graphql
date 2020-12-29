@@ -2,7 +2,8 @@ type Message {
   chatId: String!
   text: String!
   date: String!
-
+  from: String!
+  to: String!
 }
 
 input NewMessage {

@@ -44,13 +44,12 @@ export class UsersService {
     }
 
 
- async create(userDto: CreateUserDto): Promise<User | undefined> {
+ async create(userDto: CreateUserDto): Promise<boolean> {
     const salt = await bcrypt.genSalt(10)
 
-    const listSize: number  = this.users.length + 1;
     const user: User = new User();
     user.salt = await salt;
-    user.id = listSize.toString();
+    user.id
     user.name = userDto.name;
     user.email = userDto.email;
     user.password = await this.hashPasswordAsync(userDto.password, user.salt);

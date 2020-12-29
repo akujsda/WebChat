@@ -5,6 +5,8 @@ import {MessagesRepository} from "../repository/message.repository"
 import {UserRepository} from "../repository/users.repository"
 import {ChatRepository} from "../repository/chat.repository"
 import { Connection } from 'typeorm';
+import * as jwt from 'jsonwebtoken'
+import get from 'lodash/get';
 
 @Injectable()
 export class ChatService {
@@ -26,9 +28,10 @@ export class ChatService {
     const isChatExist = await this.chatRepository.findChat(input)
 
     if (!!isSenderExist && !!isRecipientExist && !isChatExist){
-      return this.chatRepository.createChat(input)
+      this.chatRepository.createChat(input)
+      return true
     } else {
-      throw new NotFoundException("wrong data")
+      return false
     }
 
   }
@@ -40,5 +43,10 @@ export class ChatService {
     } else {
       throw new NotFoundException("chat is not exist")
     }
+  }
+
+  async getMyChats(email: string){
+    const user = await this.userRepository.findUser(email)
+    return this.chatRepository.getMyChats(user.id)
   }
 }

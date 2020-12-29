@@ -7,9 +7,9 @@ import { NotFoundException } from "@nestjs/common";
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> {
 
-  async newUserAsync(input: User): Promise<UserEntity | undefined> {
+  async newUserAsync(input: User): Promise<boolean> {
     const { name, email, password, salt } = input
-    const userExist = await this.findOne({where: {email: email, password: password}})
+    const userExist = await this.findOne({where: {email: email}})
     if (!userExist){
 
     const user = this.create();
@@ -19,9 +19,9 @@ export class UserRepository extends Repository<UserEntity> {
     user.password = password;
     user.id;
     user.save();
-    return await this.findOne({where: {email: email, password: password}})
+    return true
     } else {
-      return undefined;
+      return false;
     }
   }
 

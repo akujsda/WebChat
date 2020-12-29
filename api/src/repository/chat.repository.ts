@@ -23,4 +23,21 @@ export class ChatRepository extends Repository<ChatEntity> {
     const {  senderId, recipientId } = input
     return await this.findOne({where:{senderId:senderId, recipientId:recipientId }})
   }
+
+  async findRecipient(chatId: string): Promise<string> {
+    const chat = await this.find({where:{id:chatId}})
+    if (chat) {
+      console.log("////////////////////",chatId);
+    }
+
+
+    return  "asd"
+  }
+
+  async getMyChats(id: string): Promise<ChatEntity[]> {
+    const iSender =  await this.find({where:{senderId:id}})
+    const iRecipient = await this.find({where:{recipientId:id}})
+
+    return  iSender.concat(iRecipient)
+  }
 }

@@ -1,11 +1,11 @@
-import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver, Subscription, Context } from '@nestjs/graphql';
 import { Message, FindChatInput, Chat, NewChat } from '../graphql';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from '../dto/create-chat.dto';
 import {PubSub} from "graphql-subscriptions"
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/users/auth.guard';
-
+import get from 'lodash/get';
 
 
 @Resolver('Chat')
@@ -15,12 +15,12 @@ export class ChatResolvers {
     // this.pubSub = new PubSub()
   }
 
-  @Query('test')
+  @Query('getMyChats')
   @UseGuards(new AuthGuard())
+  async getMyChats(@Context('user') token: string){
+    const email =  get(token, "email")
 
-  test(){
-
-    return "asd"
+    return this.chatService.getMyChats(email)
   }
 
   @Mutation('createChat')

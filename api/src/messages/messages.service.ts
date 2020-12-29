@@ -4,19 +4,23 @@ import { CreateMessageDto } from '../dto/create-message.dto';
 import {MessagesRepository} from "../repository/message.repository"
 import {UserRepository} from "../repository/users.repository"
 import { Connection } from 'typeorm';
+import { ChatRepository } from 'src/repository/chat.repository';
 
 @Injectable()
 export class MessagesService {
   private readonly messagesRepository: MessagesRepository
   private readonly userRepository: UserRepository
+  private readonly chatRepository: ChatRepository
   constructor(
     private readonly connection: Connection,
   ){
     this.messagesRepository = this.connection.getCustomRepository(MessagesRepository);
     this.userRepository = this.connection.getCustomRepository(UserRepository);
+    this.chatRepository = this.connection.getCustomRepository(ChatRepository);
   }
 
    async sendMessage(messageDto: CreateMessageDto){
+
       const message: Message = new Message();
       message.text = messageDto.text
       message.date= String(new Date())

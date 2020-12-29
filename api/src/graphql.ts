@@ -52,7 +52,7 @@ export abstract class IMutation {
 
     abstract sendMessage(input: NewMessage): Message | Promise<Message>;
 
-    abstract createUser(input: NewUser): User | Promise<User>;
+    abstract createUser(input: NewUser): boolean | Promise<boolean>;
 
     abstract userSignIn(input?: UserSignInInput): SignInPayload | Promise<SignInPayload>;
 }
@@ -60,7 +60,7 @@ export abstract class IMutation {
 export abstract class IQuery {
     abstract findChat(input?: FindChatInput): Chat | Promise<Chat>;
 
-    abstract test(): string | Promise<string>;
+    abstract getMyChats(token: string): Chat[] | Promise<Chat[]>;
 
     abstract getMessages(chatId?: string): Message[] | Promise<Message[]>;
 
@@ -75,6 +75,8 @@ export class Message {
     chatId: string;
     text: string;
     date: string;
+    from: string;
+    to: string;
 }
 
 export abstract class ISubscription {

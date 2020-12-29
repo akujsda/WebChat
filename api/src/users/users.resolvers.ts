@@ -16,6 +16,8 @@ export class UsersResolvers {
   @Query()
   @UseGuards(new AuthGuard())
   me(@Context('user') user: User) {
+    console.log(user);
+
     return user;
   }
 
@@ -30,7 +32,7 @@ export class UsersResolvers {
   }
 
   @Mutation('createUser')
-  async create(@Args('input') args: CreateUserDto): Promise<User | undefined> {
+  async create(@Args('input') args: CreateUserDto): Promise<boolean> {
     return await this.userService.create(args);
   }
 }
