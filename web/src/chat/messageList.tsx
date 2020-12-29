@@ -59,7 +59,7 @@ export const MessageList = ():ReactElement =>{
 
 
   return (
-    <Box width="100vw"  id="messageList" overflow="scroll">
+    <Box width="100vw" height="80vh" id="messageList" overflow="scroll" >
       <StyledList >
         {!loading && messageList  && messageList.map((message:any, index:number)=> {
           return (

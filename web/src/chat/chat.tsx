@@ -19,7 +19,7 @@ const Chat = ():ReactElement =>{
 
 
     return (
-      <Box width="100vw" height="90vh" display="flex" justifyContent="center" >
+      <Box width="100vw"  display="flex" justifyContent="center" >
         <Box >
           <MessageList />
         </Box>
