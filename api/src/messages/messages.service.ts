@@ -16,25 +16,16 @@ export class MessagesService {
     this.userRepository = this.connection.getCustomRepository(UserRepository);
   }
 
-    sendMessage(messageDto: CreateMessageDto){
+   async sendMessage(messageDto: CreateMessageDto){
       const message: Message = new Message();
       message.text = messageDto.text
-      message.senderId = messageDto.senderId
       message.date= String(new Date())
-      message.senderName= messageDto.senderName
-      this.messagesRepository.sendMessage(message)
-      return message
-
+      message.chatId = messageDto.chatId
+      return await this.messagesRepository.sendMessage(message)
     }
 
 
-    findAll(senderId: string){
-      if(this.userRepository.findUser(senderId)){
-        return this.messagesRepository.getMessages()
-      }else{
-        return null
-      }
+    findAll(chatId: string){
+        return this.messagesRepository.getMessages(chatId)
     }
-
-
 }

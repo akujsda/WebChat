@@ -9,7 +9,7 @@ export class UsersResolvers {
   constructor(private readonly userService: UsersService) {}
 
   @Query()
-  async users() {
+  users() {
     return this.userService.findAll();
   }
 

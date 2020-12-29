@@ -8,18 +8,20 @@ import { MessageEntity } from "../messages/messages.entity"
 export class MessagesRepository extends Repository<MessageEntity> {
 
   async sendMessage(input: CreateMessageDto): Promise<MessageEntity> {
-    const {  senderId, text, senderName } = input
+    const {  chatId, text } = input
 
     const message = new MessageEntity
-    message.senderId = senderId
+    message.chatId = chatId
     message.text = text
-    message.senderName =  senderName
     message.date = new Date()
-
-    return await message.save()
+    message.id
+    await message.save()
+    return message
   }
 
-  async getMessages(): Promise<MessageEntity[]> {
-    return await this.find()
+  async getMessages(chatId: string): Promise<MessageEntity[]> {
+
+    const messages = await this.find({where:{chatId:chatId}})
+    return messages
   }
 }

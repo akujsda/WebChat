@@ -5,6 +5,8 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {MessageModule} from "./messages/messages.module";
 import {UserRepository} from "src/repository/users.repository";
 import {MessagesRepository} from "src/repository/message.repository";
+import {ChatRepository} from "src/repository/chat.repository"
+import {ChatModule} from "src/chats/chat.module"
 import { PubSub } from 'graphql-subscriptions';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
@@ -16,6 +18,8 @@ require('dotenv').config();
     MessageModule,
     UserRepository,
     MessagesRepository,
+    ChatModule,
+    ChatRepository,
      ServeStaticModule.forRoot({
        rootPath: join(__dirname, '..', 'client'),
      }),

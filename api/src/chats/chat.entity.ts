@@ -1,16 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
 import { EnhancedBaseEntity } from 'src/entity/base.entity'
 
-@Entity('message')
-export class MessageEntity extends EnhancedBaseEntity{
+@Entity('chat')
+export class ChatEntity extends EnhancedBaseEntity{
 	@PrimaryGeneratedColumn('uuid') id: string
 
   @Column('varchar', { length: 500, unique: false })
-  text: string
+  senderId: string
 
   @Column('varchar', { length: 500, unique: false })
-  date: Date
-
-  @Column('varchar', { length: 500, unique: false })
-  chatId: string
+  recipientId: string
 }

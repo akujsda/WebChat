@@ -1,0 +1,33 @@
+type NewChat {
+  senderId: String!
+  recipientId: String!
+}
+
+type Chat {
+  id: String!
+  senderId: String!
+  recipientId: String!
+}
+
+input FindChatInput {
+  senderId: String!
+  recipientId: String!
+}
+
+input NewChatInput {
+  senderId: String!
+  recipientId: String!
+}
+
+
+type Mutation {
+  createChat(input: NewChatInput!): Chat
+}
+
+type Query {
+  findChat(input: FindChatInput): Chat
+}
+
+type Query {
+  test: String!
+}

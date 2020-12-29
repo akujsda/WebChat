@@ -6,10 +6,19 @@
 
 /* tslint:disable */
 /* eslint-disable */
-export class NewMessage {
+export class FindChatInput {
     senderId: string;
+    recipientId: string;
+}
+
+export class NewChatInput {
+    senderId: string;
+    recipientId: string;
+}
+
+export class NewMessage {
+    chatId: string;
     text: string;
-    senderName: string;
 }
 
 export class NewUser {
@@ -27,14 +36,20 @@ export class UserSignInInput {
     password: string;
 }
 
-export class Message {
+export class NewChat {
     senderId: string;
-    text: string;
-    date: string;
-    senderName: string;
+    recipientId: string;
+}
+
+export class Chat {
+    id: string;
+    senderId: string;
+    recipientId: string;
 }
 
 export abstract class IMutation {
+    abstract createChat(input: NewChatInput): Chat | Promise<Chat>;
+
     abstract sendMessage(input: NewMessage): Message | Promise<Message>;
 
     abstract createUser(input: NewUser): User | Promise<User>;
@@ -43,13 +58,23 @@ export abstract class IMutation {
 }
 
 export abstract class IQuery {
-    abstract getMessages(senderId?: string): Message[] | Promise<Message[]>;
+    abstract findChat(input?: FindChatInput): Chat | Promise<Chat>;
+
+    abstract test(): string | Promise<string>;
+
+    abstract getMessages(chatId?: string): Message[] | Promise<Message[]>;
 
     abstract getUserById(input?: UserId): User | Promise<User>;
 
     abstract users(): User[] | Promise<User[]>;
 
     abstract me(): User | Promise<User>;
+}
+
+export class Message {
+    chatId: string;
+    text: string;
+    date: string;
 }
 
 export abstract class ISubscription {

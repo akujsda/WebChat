@@ -1,14 +1,13 @@
 type Message {
-  senderId: String!
+  chatId: String!
   text: String!
   date: String!
-  senderName: String!
+
 }
 
 input NewMessage {
-  senderId: String!
+  chatId: String!
   text: String!
-  senderName: String!
 }
 
 
@@ -17,7 +16,7 @@ type Mutation {
 }
 
 type Query {
-  getMessages(senderId: String): [Message!]!
+  getMessages(chatId: String): [Message!]!
 }
 
 type Subscription {

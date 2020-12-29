@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 import { setContext } from 'apollo-link-context';
 
 const wsLink = new WebSocketLink({
-  uri: `ws://18.222.35.142:80/graphql`,
+  uri: `ws://localhost:5000/graphql`,
   options: {
     reconnect: true,
     connectionParams: () => ({
@@ -18,7 +18,7 @@ const wsLink = new WebSocketLink({
 });
 
 const httpLink = new HttpLink({
-  uri: 'http://18.222.35.142:80/graphql',
+  uri: 'http://localhost:5000/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
