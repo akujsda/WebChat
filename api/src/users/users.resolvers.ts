@@ -16,9 +16,7 @@ export class UsersResolvers {
   @Query()
   @UseGuards(new AuthGuard())
   me(@Context('user') user: User) {
-    console.log(user);
-
-    return user;
+    return this.userService.findOne(user.email);
   }
 
   @Mutation()

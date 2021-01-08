@@ -46,7 +46,6 @@ export class UsersService {
 
  async create(userDto: CreateUserDto): Promise<boolean> {
     const salt = await bcrypt.genSalt(10)
-
     const user: User = new User();
     user.salt = await salt;
     user.id
@@ -74,7 +73,7 @@ export class UsersService {
     return await this.userRepository.findUser(find)
   }
 
-  async findByName(name: string): Promise<User> {
+  async findByName(name: string): Promise<User[]> {
     return await this.userRepository.findByName(name)
   }
 }

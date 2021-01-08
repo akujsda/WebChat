@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {BrowserRouter as Router, Route, } from 'react-router-dom';
 import {rootRoutes} from './routes'
@@ -7,12 +7,16 @@ import SignUp from "../auth/register"
 import Chat from "../chat/chat"
 import Header from "../ui/header"
 
+
+
 const AppRouter: React.FC=():React.ReactElement=> {
+  const [currentChat, setCurrentChat]=useState<string | null>(null)
 
   return (
     <Router >
       <Route path={rootRoutes.root}>
         <Header />
+
       </Route>
 
       <Route path={rootRoutes.login} exact>
@@ -24,7 +28,7 @@ const AppRouter: React.FC=():React.ReactElement=> {
       </Route>
 
       <Route path={rootRoutes.chat} exact>
-        <Chat  />
+        <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} />
       </Route>
     </Router>
   );

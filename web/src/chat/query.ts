@@ -10,11 +10,11 @@ export const SendMessageM = gql`
 `
 
 export const GetMessagesQ = gql`
-  query getMessages($senderId: String){
-    getMessages(senderId: $senderId){
+  query getMessages($chatId: String){
+    getMessages(chatId: $chatId){
       text
-      senderName
       date
+      senderName
     }
   }
 `
@@ -24,7 +24,6 @@ export const NewMessageS = gql`
     newMessage {
     text
     date
-    senderName
   }
   }
 

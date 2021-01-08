@@ -7,4 +7,11 @@ export class CreateChatDto extends NewChat {
 
   @IsNotEmpty()
   recipientId: string;
+
+  @IsNotEmpty()
+  senderName: string;
+
+  @IsNotEmpty()
+  recipientName: string;
+
 }

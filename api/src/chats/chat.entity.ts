@@ -10,4 +10,10 @@ export class ChatEntity extends EnhancedBaseEntity{
 
   @Column('varchar', { length: 500, unique: false })
   recipientId: string
+
+  @Column('varchar', { length: 500, unique: false })
+  senderName: string
+
+  @Column('varchar', { length: 500, unique: false })
+  recipientName: string
 }

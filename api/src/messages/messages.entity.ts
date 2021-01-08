@@ -13,4 +13,7 @@ export class MessageEntity extends EnhancedBaseEntity{
 
   @Column('varchar', { length: 500, unique: false })
   chatId: string
+
+  @Column('varchar', { length: 500, unique: false })
+  senderName: string
 }

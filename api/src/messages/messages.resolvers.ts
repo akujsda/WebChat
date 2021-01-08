@@ -6,6 +6,7 @@ import {PubSub} from "graphql-subscriptions"
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/users/auth.guard';
 import { MessageEntity } from './messages.entity';
+import { CurrentUser } from './message.decorator';
 
 const NEW_MESSAGE="NEW_MESSAGE"
 
@@ -31,9 +32,12 @@ export class MessagesResolvers {
 
   @Mutation('sendMessage')
   @UseGuards(new AuthGuard())
-  async create(@Context('user') @Args('input') args: CreateMessageDto, user: User): Promise<MessageEntity> {
+  async create(
+    @CurrentUser() user:User,
+    @Args('input') args: CreateMessageDto
+    ): Promise<MessageEntity> {
     //  const createMessage: Message =  this.messagesService.sendMessage(args)
-     return  await this.messagesService.sendMessage(args)
+     return  await this.messagesService.sendMessage(args, user)
     // this.pubSub.publish(NEW_MESSAGE, {newMessage: createMessage})
     // return createMessage
   }

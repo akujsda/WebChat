@@ -45,6 +45,8 @@ export class Chat {
     id: string;
     senderId: string;
     recipientId: string;
+    senderName: string;
+    recipientName: string;
 }
 
 export abstract class IMutation {
@@ -75,8 +77,7 @@ export class Message {
     chatId: string;
     text: string;
     date: string;
-    from: string;
-    to: string;
+    senderName: string;
 }
 
 export abstract class ISubscription {

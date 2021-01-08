@@ -28,7 +28,10 @@ export class ChatService {
     const isChatExist = await this.chatRepository.findChat(input)
 
     if (!!isSenderExist && !!isRecipientExist && !isChatExist){
-      this.chatRepository.createChat(input)
+      const chatWithNames = Object.assign(input)
+      chatWithNames.senderName = isSenderExist.name
+      chatWithNames.recipientName = isRecipientExist.name
+      this.chatRepository.createChat(chatWithNames)
       return true
     } else {
       return false

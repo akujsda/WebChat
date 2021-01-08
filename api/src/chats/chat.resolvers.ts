@@ -1,12 +1,12 @@
 import { Args, Mutation, Query, Resolver, Subscription, Context } from '@nestjs/graphql';
-import { Message, FindChatInput, Chat, NewChat } from '../graphql';
+import { Message, FindChatInput, Chat, NewChat, User } from '../graphql';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from '../dto/create-chat.dto';
 import {PubSub} from "graphql-subscriptions"
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/users/auth.guard';
 import get from 'lodash/get';
-
+import {CurrentUser} from "../messages/message.decorator"
 
 @Resolver('Chat')
 export class ChatResolvers {
@@ -32,7 +32,12 @@ export class ChatResolvers {
 
   @Query()
   @UseGuards(new AuthGuard())
-   findChat(@Args('input') args: FindChatInput) {
+   findChat(
+    @CurrentUser() user:User,
+    @Args('input') args: FindChatInput
+    ) {
+      console.log('/////////////////////', user);
+
     return  this.chatService.findChat(args);
   }
 

@@ -20,12 +20,12 @@ const StyledTextField=styled(TextField)`
 `
 
 interface SendMessageInput {
-  senderId: string
+  chatId: string
   text:string
 }
 
 const initialValues:SendMessageInput = {
-  senderId: "",
+  chatId: "",
   text:""
 }
 
@@ -34,8 +34,13 @@ const validationSchema = yup.object().shape({
   senderId: yup.string().required(),
 })
 
+interface Props {
+  currentChat: string | null
+}
 
-export const SendMessage = ():ReactElement =>{
+export const SendMessage = ({
+  currentChat
+}:Props):ReactElement =>{
   const [sendMessage] = useMutation<Message>(SendMessageM)
   const id= Cookies.get("userId")
   const userName= Cookies.get("userName")
@@ -54,9 +59,8 @@ export const SendMessage = ():ReactElement =>{
      await sendMessage({
         variables: {
           input: {
-            senderId: id,
+            chatId: currentChat,
             text: formikBag.values.text,
-            senderName: userName
           },
         },
       })

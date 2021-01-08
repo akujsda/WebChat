@@ -5,9 +5,18 @@ import {SendMessage} from "./sendMessage"
 import Cookies from "js-cookie"
 import {useHistory} from "react-router-dom"
 import {rootRoutes} from "../route/routes"
+import FriendsPage from "../friends/friends"
 
 
-const Chat = ():ReactElement =>{
+interface Props {
+  currentChat: string | null
+  setCurrentChat: (arg: string | null) => void
+}
+
+const Chat = ({
+  currentChat,
+  setCurrentChat
+}:Props):ReactElement =>{
   const id= Cookies.get("userId")
   const history = useHistory()
 
@@ -19,9 +28,11 @@ const Chat = ():ReactElement =>{
 
 
     return (
-      <Box width="100vw"  display="flex" justifyContent="center" >
-        <Box >
-          <MessageList />
+      <Box width="100vw"  display="flex" justifyContent="center" zIndex={0} border="3px solid green">
+
+        <Box display="flex" width="100vw">
+          <FriendsPage setCurrentChat={setCurrentChat} />
+          <MessageList currentChat={currentChat} />
         </Box>
 
         <Box
@@ -33,7 +44,7 @@ const Chat = ():ReactElement =>{
           display="flex"
           justifyContent="center"
         >
-          <SendMessage />
+          <SendMessage currentChat={currentChat} />
         </Box>
       </Box>
     )

@@ -9,14 +9,16 @@ import { FindChatInput } from "src/graphql"
 export class ChatRepository extends Repository<ChatEntity> {
 
   async createChat(input: CreateChatDto): Promise<ChatEntity> {
-    const {  senderId, recipientId } = input
+    const {  senderId, recipientId, senderName, recipientName } = input
     const isChatExist = await this.findOne({where:{senderId: senderId, recipientId: recipientId}})
     const chat = this.create()
+    chat.senderName= senderName
+    chat.recipientName= recipientName
     chat.senderId = senderId
     chat.recipientId = recipientId
     chat.id
     await chat.save()
-    return await this.findOne({where:{id: chat.id}})
+    return chat
   }
 
   async findChat(input: FindChatInput): Promise<ChatEntity> {
@@ -26,11 +28,6 @@ export class ChatRepository extends Repository<ChatEntity> {
 
   async findRecipient(chatId: string): Promise<string> {
     const chat = await this.find({where:{id:chatId}})
-    if (chat) {
-      console.log("////////////////////",chatId);
-    }
-
-
     return  "asd"
   }
 
