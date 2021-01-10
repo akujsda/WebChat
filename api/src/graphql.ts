@@ -12,7 +12,6 @@ export class FindChatInput {
 }
 
 export class NewChatInput {
-    senderId: string;
     recipientId: string;
 }
 
@@ -50,7 +49,7 @@ export class Chat {
 }
 
 export abstract class IMutation {
-    abstract createChat(input: NewChatInput): Chat | Promise<Chat>;
+    abstract createChat(input: NewChatInput): boolean | Promise<boolean>;
 
     abstract sendMessage(input: NewMessage): Message | Promise<Message>;
 

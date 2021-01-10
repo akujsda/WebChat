@@ -17,13 +17,12 @@ input FindChatInput {
 }
 
 input NewChatInput {
-  senderId: String!
   recipientId: String!
 }
 
 
 type Mutation {
-  createChat(input: NewChatInput!): Chat
+  createChat(input: NewChatInput!): Boolean!
 }
 
 type Query {

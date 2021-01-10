@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver, Subscription, Context } from '@nestjs/graphql';
-import { Message, FindChatInput, Chat, NewChat, User } from '../graphql';
+import { Message, FindChatInput, Chat, NewChat, User, NewChatInput } from '../graphql';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from '../dto/create-chat.dto';
 import {PubSub} from "graphql-subscriptions"
@@ -17,16 +17,23 @@ export class ChatResolvers {
 
   @Query('getMyChats')
   @UseGuards(new AuthGuard())
-  async getMyChats(@Context('user') token: string){
-    const email =  get(token, "email")
-
-    return this.chatService.getMyChats(email)
+  async getMyChats(
+    @CurrentUser() user:User,
+  ){
+    console.log(user)
+    return this.chatService.getMyChats(user.email)
   }
 
   @Mutation('createChat')
   @UseGuards(new AuthGuard())
-  async createChat(@Args('input') args: NewChat) {
-
+  async createChat(
+    @CurrentUser() user: User,
+    @Args('input') input: NewChatInput
+    ) {
+    const args: NewChat = {
+      senderId : user.id,
+      recipientId: input.recipientId
+    }
     return await this.chatService.createChat(args)
   }
 
@@ -36,8 +43,7 @@ export class ChatResolvers {
     @CurrentUser() user:User,
     @Args('input') args: FindChatInput
     ) {
-      console.log('/////////////////////', user);
-
+      console.log(args, user)
     return  this.chatService.findChat(args);
   }
 

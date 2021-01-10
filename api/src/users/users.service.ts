@@ -1,4 +1,4 @@
-import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException, Logger } from '@nestjs/common';
 import { User, UserId, UserSignInInput, UserPayload } from '../graphql';
 import { CreateUserDto } from '../dto/create-user.dto';
 import {UserRepository} from "../repository/users.repository"
@@ -45,9 +45,9 @@ export class UsersService {
 
 
  async create(userDto: CreateUserDto): Promise<boolean> {
-    const salt = await bcrypt.genSalt(10)
+    const salt = bcrypt.genSaltSync(10) 
     const user: User = new User();
-    user.salt = await salt;
+    user.salt = salt;
     user.id
     user.name = userDto.name;
     user.email = userDto.email;

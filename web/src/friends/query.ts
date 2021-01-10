@@ -11,3 +11,21 @@ export const GetMyChatsQ = gql`
     }
   }
 `
+
+export const UsersQ = gql`
+  query users{
+    users{
+      name
+      id
+      email
+    }
+  }
+`
+
+export const CreateChatM = gql`
+  mutation createChat($input: NewChatInput!){
+    createChat(input: $input){
+      id
+    }
+  }
+`

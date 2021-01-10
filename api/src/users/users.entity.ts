@@ -7,10 +7,10 @@ import * as bcrypt from "bcryptjs"
 export class UserEntity extends EnhancedBaseEntity{
 	@PrimaryGeneratedColumn('uuid') id: string
 
-	@Column('varchar', { length: 500, unique: true })
+	@Column('varchar', { length: 500, unique: false })
   name: string
 
-  @Column('varchar', { length: 500, unique: true })
+  @Column('varchar', { length: 500, unique: false })
   email: string
 
   @Column('varchar', { length: 500, unique: false })

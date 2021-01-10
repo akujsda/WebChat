@@ -3,7 +3,7 @@ import { EntityRepository, Repository } from "typeorm";
 import { UserEntity } from "../users/users.entity";
 import { User, UserSignInInput, UserPayload } from "src/graphql";
 import { NotFoundException } from "@nestjs/common";
-
+import * as bcrypt from "bcryptjs"
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> {
 
