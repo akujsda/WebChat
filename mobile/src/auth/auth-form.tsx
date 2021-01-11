@@ -34,12 +34,8 @@ export const AuthForm = ({
           },
         },
       }).then((response)=>{
-        console.log(response)
       })
   } catch {}
-  finally{
-    console.log("test")
-  }
   }
   }
         return(

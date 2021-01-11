@@ -22,7 +22,7 @@ input NewChatInput {
 
 
 type Mutation {
-  createChat(input: NewChatInput!): Boolean!
+  createChat(input: NewChatInput!): Chat!
 }
 
 type Query {
@@ -31,4 +31,8 @@ type Query {
 
 type Query {
   getMyChats(token: String!): [Chat]
+}
+
+type Subscription {
+  newChat: Chat
 }

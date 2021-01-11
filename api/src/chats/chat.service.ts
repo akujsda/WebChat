@@ -34,12 +34,9 @@ export class ChatService {
       const chatWithNames = Object.assign(newChat)
       chatWithNames.senderName = isSenderExist.name
       chatWithNames.recipientName = isRecipientExist.name
-      this.chatRepository.createChat(chatWithNames)
-      return true
-    } else {
-      return false
-    }
 
+      return this.chatRepository.createChat(chatWithNames)
+    }
   }
 
   async findChat(input: FindChatInput){

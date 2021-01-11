@@ -8,11 +8,13 @@ import { AuthGuard } from 'src/users/auth.guard';
 import get from 'lodash/get';
 import {CurrentUser} from "../messages/message.decorator"
 
+
+const NEW_CHAT="NEW_CHAT"
 @Resolver('Chat')
 export class ChatResolvers {
-  // private pubSub: PubSub
+  private pubSub: PubSub
   constructor(private readonly chatService: ChatService, ) {
-    // this.pubSub = new PubSub()
+    this.pubSub = new PubSub()
   }
 
   @Query('getMyChats')
@@ -21,6 +23,12 @@ export class ChatResolvers {
     @CurrentUser() user:User,
   ){
     return this.chatService.getMyChats(user.email)
+  }
+
+  @Subscription()
+  @UseGuards(new AuthGuard())
+  newChat() {
+    return this.pubSub.asyncIterator(NEW_CHAT);
   }
 
   @Mutation('createChat')
@@ -33,7 +41,9 @@ export class ChatResolvers {
       senderId : user.email,
       recipientId: input.recipientId
     }
-    return await this.chatService.createChat(args)
+    const createdChat=await this.chatService.createChat(args)
+     this.pubSub.publish(NEW_CHAT, {newChat: createdChat})
+    return createdChat
   }
 
   @Query()
@@ -42,7 +52,6 @@ export class ChatResolvers {
     @CurrentUser() user:User,
     @Args('input') args: FindChatInput
     ) {
-      console.log(args, user)
     return  this.chatService.findChat(args);
   }
 

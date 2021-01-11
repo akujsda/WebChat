@@ -49,7 +49,7 @@ export class Chat {
 }
 
 export abstract class IMutation {
-    abstract createChat(input: NewChatInput): boolean | Promise<boolean>;
+    abstract createChat(input: NewChatInput): Chat | Promise<Chat>;
 
     abstract sendMessage(input: NewMessage): Message | Promise<Message>;
 
@@ -72,15 +72,17 @@ export abstract class IQuery {
     abstract me(): User | Promise<User>;
 }
 
+export abstract class ISubscription {
+    abstract newChat(): Chat | Promise<Chat>;
+
+    abstract newMessage(): Message | Promise<Message>;
+}
+
 export class Message {
     chatId: string;
     text: string;
     date: string;
     senderName: string;
-}
-
-export abstract class ISubscription {
-    abstract newMessage(): Message | Promise<Message>;
 }
 
 export class User {

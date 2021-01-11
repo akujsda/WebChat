@@ -36,9 +36,8 @@ export class MessagesResolvers {
     @CurrentUser() user:User,
     @Args('input') args: CreateMessageDto
     ): Promise<MessageEntity> {
-    //  const createMessage: Message =  this.messagesService.sendMessage(args)
+     const createMessage: Promise<MessageEntity> =  this.messagesService.sendMessage(args, user)
+     this.pubSub.publish(NEW_MESSAGE, {newMessage: createMessage})
      return  await this.messagesService.sendMessage(args, user)
-    // this.pubSub.publish(NEW_MESSAGE, {newMessage: createMessage})
-    // return createMessage
   }
 }

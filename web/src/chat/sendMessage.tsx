@@ -5,7 +5,6 @@ import {SendMessageM} from "./query"
 import {Message} from "./types"
 import {Formik, FormikProps} from "formik"
 import * as yup from 'yup'
-import Cookies from "js-cookie"
 import styled from 'styled-components'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -42,8 +41,6 @@ export const SendMessage = ({
   currentChat
 }:Props):ReactElement =>{
   const [sendMessage] = useMutation<Message>(SendMessageM)
-  const id= Cookies.get("userId")
-  const userName= Cookies.get("userName")
   const intl = useIntl().messages
 
   const setTextValue = (formikBag:any): void=>{

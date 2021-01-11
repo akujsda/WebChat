@@ -23,9 +23,6 @@ const validationSchema = yup.object().shape({
 })
 
 export const RegisterPage = ():ReactElement =>{
-  const emailReference = useRef<any>(null)
-  const passwordReference = useRef<any>(null)
-
   return (
     <Formik
       initialValues={initialValues}

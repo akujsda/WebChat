@@ -2,7 +2,6 @@ import React, { ReactElement, useEffect, useState } from "react"
 import {Box} from "@material-ui/core"
 import { useQuery, useSubscription } from "@apollo/react-hooks"
 import {GetMessagesQ, NewMessageS} from "./query"
-import Cookies from "js-cookie"
 import styled from 'styled-components'
 
 
@@ -28,8 +27,6 @@ interface Props {
 export const MessageList = ({
   currentChat
 }:Props):ReactElement =>{
-  const id = Cookies.get("userId")
-  const name = Cookies.get("userName")
   const [messageList, setMessageList]= useState([""])
 
   const { data, loading } = useQuery(GetMessagesQ, {
@@ -43,7 +40,6 @@ export const MessageList = ({
   }, [loading, data, currentChat])
 
   const {data: subData, loading: subLoading} = useSubscription(NewMessageS)
-
 
 
   useEffect(() => {
@@ -66,8 +62,6 @@ export const MessageList = ({
     <Box width="100%" height="80vh" id="messageList" overflow="scroll" >
       <StyledList >
         {!loading && messageList && currentChat && messageList.map((message:any, index:number)=> {
-          console.log(message);
-
           return (
             <StyledItemList key={index} >
               <Box textAlign="left" marginLeft="10px" padding="5px" >{message.senderName}: </Box>

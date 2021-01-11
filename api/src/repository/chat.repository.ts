@@ -8,7 +8,7 @@ import { FindChatInput } from "src/graphql"
 @EntityRepository(ChatEntity)
 export class ChatRepository extends Repository<ChatEntity> {
 
-  async createChat(input: CreateChatDto): Promise<boolean> {
+  async createChat(input: CreateChatDto): Promise<ChatEntity> {
     const {  senderId, recipientId, senderName, recipientName } = input
     const isChatExist = await this.findOne({where:{senderId: senderId, recipientId: recipientId}}) || await this.findOne({where:{senderId: recipientId, recipientId: senderId}})
 
@@ -20,9 +20,9 @@ export class ChatRepository extends Repository<ChatEntity> {
       chat.recipientId = recipientId
       chat.id;
       await chat.save()
-      return true
+      return chat
     }
-    return false
+    return isChatExist
   }
 
   async findChat(input: FindChatInput): Promise<ChatEntity> {

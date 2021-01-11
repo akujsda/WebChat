@@ -61,7 +61,7 @@ export const AddFriendModal = ({
             <CloseIcon onClick={()=>setModalActive(false)}/>
           </Box>
             <ul className={classes.userList} onClick= {createChatAsync}>
-            {!loading && data.users && data.users.map((user: User)=> <li className={classes.user} id={user.id}>{user.email} : {user.name}</li>)}
+            {!loading && data.users && data.users.map((user: User)=> <li className={classes.user} key={user.id} id={user.id}>{user.email} : {user.name}</li>)}
             </ul>
           </Box>
         </Box>

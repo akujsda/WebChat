@@ -21,10 +21,10 @@ export const GetMessagesQ = gql`
 
 export const NewMessageS = gql`
   subscription{
-    newMessage {
-    text
-    date
+      newMessage {
+      text
+      date
+      senderName
+    }
   }
-  }
-
 `
