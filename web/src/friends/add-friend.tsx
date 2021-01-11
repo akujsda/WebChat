@@ -5,13 +5,15 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 interface Props {
   isListClose: boolean
+  setModalActive:(arg:boolean) => void
 }
 export const AddFriend = ({
-  isListClose
+  isListClose,
+  setModalActive
 }:Props) => {
   return (
     <Box display="flex" justifyContent="flex-start" margin="10px">
-      {!isListClose && (<AddCircleOutlineIcon />)}
+      {!isListClose && (<AddCircleOutlineIcon onClick={()=>setModalActive(true)} />)}
     </Box>
   )
 }

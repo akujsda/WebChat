@@ -1,9 +1,9 @@
-import { EntityRepository, Repository } from "typeorm";
+import { EntityRepository, Repository, Not } from "typeorm";
 
 import { UserEntity } from "../users/users.entity";
 import { User, UserSignInInput, UserPayload } from "src/graphql";
 import { NotFoundException } from "@nestjs/common";
-import * as bcrypt from "bcryptjs"
+
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> {
 
@@ -44,13 +44,12 @@ export class UserRepository extends Repository<UserEntity> {
   }
 
 
-  async getUsers(): Promise<UserEntity[]> {
-    return await this.find()
+  async getUsers(user): Promise<UserEntity[]> {
+    return await this.find({where:{email: Not(user.email)}})
 }
 
   async findUser(find: string): Promise<UserEntity> {
-    const user = await this.findOne({where:{email: find}})
-    return user
+    return await this.findOne({where:{email: find}})
   }
 
   async findById(find: string): Promise<UserEntity> {

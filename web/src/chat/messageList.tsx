@@ -71,7 +71,7 @@ export const MessageList = ({
           return (
             <StyledItemList key={index} >
               <Box textAlign="left" marginLeft="10px" padding="5px" >{message.senderName}: </Box>
-              <Box marginTop="20px" padding="5px">{message.senderName}</Box>
+              <Box marginTop="20px" padding="5px">{message.text}</Box>
             </StyledItemList>
           )
         }

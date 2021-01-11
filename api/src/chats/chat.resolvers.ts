@@ -20,7 +20,6 @@ export class ChatResolvers {
   async getMyChats(
     @CurrentUser() user:User,
   ){
-    console.log(user)
     return this.chatService.getMyChats(user.email)
   }
 
@@ -31,7 +30,7 @@ export class ChatResolvers {
     @Args('input') input: NewChatInput
     ) {
     const args: NewChat = {
-      senderId : user.id,
+      senderId : user.email,
       recipientId: input.recipientId
     }
     return await this.chatService.createChat(args)

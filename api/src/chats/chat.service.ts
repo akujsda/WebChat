@@ -23,12 +23,15 @@ export class ChatService {
 
   async createChat(input: NewChat){
     const {senderId, recipientId} = input
-    const isSenderExist = await this.userRepository.findById(senderId)
+    const isSenderExist = await this.userRepository.findUser(senderId)
     const isRecipientExist = await this.userRepository.findById(recipientId)
-    const isChatExist = await this.chatRepository.findChat(input)
 
-    if (!!isSenderExist && !!isRecipientExist && !isChatExist){
-      const chatWithNames = Object.assign(input)
+    if (!!isSenderExist && !!isRecipientExist ){
+      const newChat={
+        senderId: isSenderExist.id,
+        recipientId: recipientId
+      }
+      const chatWithNames = Object.assign(newChat)
       chatWithNames.senderName = isSenderExist.name
       chatWithNames.recipientName = isRecipientExist.name
       this.chatRepository.createChat(chatWithNames)

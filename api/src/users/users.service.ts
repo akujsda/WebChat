@@ -45,7 +45,7 @@ export class UsersService {
 
 
  async create(userDto: CreateUserDto): Promise<boolean> {
-    const salt = bcrypt.genSaltSync(10) 
+    const salt = bcrypt.genSaltSync(10)
     const user: User = new User();
     user.salt = salt;
     user.id
@@ -65,8 +65,8 @@ export class UsersService {
    }
  }
 
- async findAll(): Promise<UserEntity[]> {
-    return await this.userRepository.getUsers()
+ async findAll(user): Promise<UserEntity[]> {
+    return await this.userRepository.getUsers(user)
   }
 
  async findOne(find: string): Promise<User> {

@@ -24,8 +24,6 @@ export const UsersQ = gql`
 
 export const CreateChatM = gql`
   mutation createChat($input: NewChatInput!){
-    createChat(input: $input){
-      id
-    }
+    createChat(input: $input)
   }
 `

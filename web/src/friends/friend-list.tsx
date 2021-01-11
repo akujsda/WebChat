@@ -29,7 +29,7 @@ export const FriendList = ({
       {!loading && data && !isListClose  && data.getMyChats.map((message:any, index:number)=> {
           return (
             <ul key={index}  onClick={():void => setCurrentChat(message.id)}>
-              <Box textAlign="left" marginLeft="10px" padding="5px">{message.senderName}: </Box>
+              <Box textAlign="left" marginLeft="10px" padding="5px">{userId === message.senderId ? message.recipientName : message.senderName}</Box>
               <Box marginTop="20px" padding="5px">{message.text}</Box>
             </ul>
           )

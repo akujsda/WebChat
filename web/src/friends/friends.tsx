@@ -13,7 +13,7 @@ const FriendsPage = ({
   setCurrentChat
 }: Props) => {
   const [isListClose, setListClose] = useState<boolean>(false)
-
+  const [isModalActive, setModalActive] = useState<boolean>(false)
   const toggleList = ():void => {
     setListClose(!isListClose)
   }
@@ -23,9 +23,9 @@ const FriendsPage = ({
       <Box display="flex" justifyContent="flex-end" margin="10px">
       <DehazeIcon onClick={toggleList} />
       </Box>
-      <AddFriend isListClose={isListClose} />
+      <AddFriend isListClose={isListClose} setModalActive={setModalActive} />
       <FriendList isListClose={isListClose} setCurrentChat={setCurrentChat}  />
-      <AddFriendModal />
+      <AddFriendModal isModalActive={isModalActive} setModalActive={setModalActive} />
     </Box>
   )
 }

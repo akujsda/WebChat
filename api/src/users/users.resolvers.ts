@@ -4,13 +4,17 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from "./auth.guard";
+import {CurrentUser} from "../messages/message.decorator"
 @Resolver('User')
 export class UsersResolvers {
   constructor(private readonly userService: UsersService) {}
 
   @Query()
-  users() {
-    return this.userService.findAll();
+  @UseGuards(new AuthGuard())
+  users(
+    @CurrentUser() user:User
+  ) {
+    return this.userService.findAll(user);
   }
 
   @Query()

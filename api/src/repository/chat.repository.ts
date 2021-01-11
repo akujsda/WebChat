@@ -10,8 +10,9 @@ export class ChatRepository extends Repository<ChatEntity> {
 
   async createChat(input: CreateChatDto): Promise<boolean> {
     const {  senderId, recipientId, senderName, recipientName } = input
-    const isChatExist = await this.findOne({where:{senderId: senderId, recipientId: recipientId}})
-    if (!isChatExist){
+    const isChatExist = await this.findOne({where:{senderId: senderId, recipientId: recipientId}}) || await this.findOne({where:{senderId: recipientId, recipientId: senderId}})
+
+    if (!isChatExist && senderId !== recipientId){
       const chat = this.create()
       chat.senderName= senderName
       chat.recipientName= recipientName

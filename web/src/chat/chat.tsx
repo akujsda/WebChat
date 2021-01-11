@@ -44,7 +44,7 @@ const Chat = ({
           display="flex"
           justifyContent="center"
         >
-          <SendMessage currentChat={currentChat} />
+          {currentChat && (<SendMessage currentChat={currentChat} />)}
         </Box>
       </Box>
     )
