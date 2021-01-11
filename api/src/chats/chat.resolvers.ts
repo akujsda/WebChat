@@ -13,7 +13,7 @@ const NEW_CHAT="NEW_CHAT"
 @Resolver('Chat')
 export class ChatResolvers {
   private pubSub: PubSub
-  constructor(private readonly chatService: ChatService, ) {
+  constructor(private readonly chatService: ChatService) {
     this.pubSub = new PubSub()
   }
 
@@ -42,7 +42,12 @@ export class ChatResolvers {
       recipientId: input.recipientId
     }
     const createdChat=await this.chatService.createChat(args)
-     this.pubSub.publish(NEW_CHAT, {newChat: createdChat})
+    const shouldUseSubscribe = await this.chatService.isMyChat(createdChat.id, args)
+
+    if(shouldUseSubscribe){
+      this.pubSub.publish(NEW_CHAT, {newChat: createdChat})
+    }
+
     return createdChat
   }
 

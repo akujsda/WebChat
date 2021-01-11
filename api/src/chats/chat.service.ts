@@ -52,4 +52,13 @@ export class ChatService {
     const user = await this.userRepository.findUser(email)
     return this.chatRepository.getMyChats(user.id)
   }
+
+  async isMyChat(chatId: string, newChatArgs: NewChat){
+    const chat= await this.chatRepository.findChatById(chatId)
+    const sender = await this.userRepository.findUser(newChatArgs.senderId)
+    const recipient = await this.userRepository.findById(newChatArgs.recipientId)
+    if(chat.senderId === sender.id || chat.senderId === recipient.id){
+    return !!chat
+  }
+  }
 }

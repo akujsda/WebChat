@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Message, UserId, User } from '../graphql';
+import { Message, UserId, User, NewChat } from '../graphql';
 import { CreateMessageDto } from '../dto/create-message.dto';
 import {MessagesRepository} from "../repository/message.repository"
 import {UserRepository} from "../repository/users.repository"
@@ -32,5 +32,14 @@ export class MessagesService {
 
     findAll(chatId: string){
         return this.messagesRepository.getMessages(chatId)
+    }
+
+    async isMyMessage(chatId: string, userEmail:string){
+      const chat= await this.chatRepository.findChatById(chatId)
+      const userId =  (await this.userRepository.findUser(userEmail)).id
+
+      if(chat.senderId === userId || chat.senderId === userId){
+      return !!chat
+    }
     }
 }

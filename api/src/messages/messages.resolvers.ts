@@ -25,7 +25,7 @@ export class MessagesResolvers {
 
   @Subscription()
   @UseGuards(new AuthGuard())
-  newMessage(@Args('chatId') chatId: string) {
+  newMessage() {
     return this.pubSub.asyncIterator(NEW_MESSAGE);
   }
 
@@ -37,7 +37,10 @@ export class MessagesResolvers {
     @Args('input') args: CreateMessageDto
     ): Promise<MessageEntity> {
      const createMessage: Promise<MessageEntity> =  this.messagesService.sendMessage(args, user)
-     this.pubSub.publish(NEW_MESSAGE, {newMessage: createMessage})
+     const shouldUseSubscribe = await this.messagesService.isMyMessage(args.chatId, user.email)
+     if (shouldUseSubscribe){
+      this.pubSub.publish(NEW_MESSAGE, {newMessage: createMessage})
+     }
      return  await this.messagesService.sendMessage(args, user)
   }
 }

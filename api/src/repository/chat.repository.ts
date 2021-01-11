@@ -41,4 +41,8 @@ export class ChatRepository extends Repository<ChatEntity> {
 
     return  iSender.concat(iRecipient)
   }
+
+  async findChatById(chatId: string): Promise<ChatEntity> {
+    return this.findOne({where:{id : chatId}})
+  }
 }
