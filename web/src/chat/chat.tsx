@@ -28,7 +28,7 @@ const Chat = ({
 
 
     return (
-      <Box width="100vw"  display="flex" justifyContent="center" zIndex={0} border="3px solid green">
+      <Box width="100vw"  display="flex" justifyContent="center" zIndex={0}>
 
         <Box display="flex" width="100vw">
           <FriendsPage setCurrentChat={setCurrentChat} />

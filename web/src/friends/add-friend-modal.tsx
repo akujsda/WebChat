@@ -19,11 +19,11 @@ interface Props{
 
 const useStyles = makeStyles({
   userList:{
-    listStyle: "none"
+    listStyle: "none",
   },
   user:{
     padding: "10px",
-    border: "1px solid black",
+    border: "1px solid #3f51b5",
     margin: "5px",
     marginRight:"30px",
   }
@@ -56,7 +56,7 @@ export const AddFriendModal = ({
   return (
       <Modal open={isModalActive}>
         <Box width="100vw" height="100vh" display="flex" justifyContent="center" alignItems="center">
-          <Box width="300px" height="300px" border="1px solid red" overflow="scroll" bgcolor="white">
+          <Box width="300px" height="300px" overflow="scroll" bgcolor="white">
           <Box position="fixed" marginLeft="10px" marginTop="10px" >
             <CloseIcon onClick={()=>setModalActive(false)}/>
           </Box>

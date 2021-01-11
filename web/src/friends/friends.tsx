@@ -19,7 +19,7 @@ const FriendsPage = ({
   }
 
   return(
-    <Box border="1px solid red" width= {isListClose ? "50px" : "300px"} height="100vh" zIndex={10}>
+    <Box border="1px solid #3f51b5" width= {isListClose ? "50px" : "300px"} height="100vh" zIndex={10}>
       <Box display="flex" justifyContent="flex-end" margin="10px">
       <DehazeIcon onClick={toggleList} />
       </Box>
