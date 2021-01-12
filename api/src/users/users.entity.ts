@@ -1,7 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
-import { EnhancedBaseEntity } from '../entity/base.entity'
 import { BadRequestException } from '@nestjs/common'
 import * as bcrypt from "bcryptjs"
+
+import { EnhancedBaseEntity } from '../entity/base.entity'
+
 
 @Entity('user')
 export class UserEntity extends EnhancedBaseEntity{

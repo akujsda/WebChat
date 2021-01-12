@@ -1,4 +1,5 @@
 import { BaseEntity } from "typeorm";
+
 import { UniqueConstraintError } from "../errors/unique-constraint.error";
 
 export class EnhancedBaseEntity extends BaseEntity {

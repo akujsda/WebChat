@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+
 import { EnhancedBaseEntity } from 'src/entity/base.entity'
 
 @Entity('chat')

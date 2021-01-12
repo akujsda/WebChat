@@ -1,9 +1,10 @@
-import { Args, Mutation, Query, Resolver, Subscription, Context } from '@nestjs/graphql';
-import { Message, UserId, User } from '../graphql';
+import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
+import { PubSub } from "graphql-subscriptions"
+import { UseGuards } from '@nestjs/common';
+
+import {  User } from '../graphql';
 import { MessagesService } from './messages.service';
 import { CreateMessageDto } from '../dto/create-message.dto';
-import {PubSub} from "graphql-subscriptions"
-import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/users/auth.guard';
 import { MessageEntity } from './messages.entity';
 import { CurrentUser } from './message.decorator';
@@ -29,7 +30,6 @@ export class MessagesResolvers {
     return this.pubSub.asyncIterator(NEW_MESSAGE);
   }
 
-
   @Mutation('sendMessage')
   @UseGuards(new AuthGuard())
   async create(
@@ -41,6 +41,6 @@ export class MessagesResolvers {
      if (shouldUseSubscribe){
       this.pubSub.publish(NEW_MESSAGE, {newMessage: createMessage})
      }
-     return  await this.messagesService.sendMessage(args, user)
+     return  createMessage
   }
 }

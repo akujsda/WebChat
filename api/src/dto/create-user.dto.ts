@@ -1,5 +1,6 @@
-import { NewUser } from '../graphql';
 import { IsNotEmpty } from 'class-validator';
+
+import { NewUser } from '../graphql';
 
 export class CreateUserDto extends NewUser {
   @IsNotEmpty()

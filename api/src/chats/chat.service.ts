@@ -1,12 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Message, UserId, FindChatInput, NewChat } from '../graphql';
-import { CreateChatDto } from '../dto/create-chat.dto';
-import {MessagesRepository} from "../repository/message.repository"
-import {UserRepository} from "../repository/users.repository"
-import {ChatRepository} from "../repository/chat.repository"
 import { Connection } from 'typeorm';
-import * as jwt from 'jsonwebtoken'
-import get from 'lodash/get';
+
+import { FindChatInput, NewChat } from '../graphql';
+import { MessagesRepository } from "../repository/message.repository"
+import { UserRepository } from "../repository/users.repository"
+import { ChatRepository } from "../repository/chat.repository"
+
 
 @Injectable()
 export class ChatService {

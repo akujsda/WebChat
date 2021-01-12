@@ -1,5 +1,6 @@
-import { NewChat } from '../graphql';
 import { IsNotEmpty } from 'class-validator';
+
+import { NewChat } from '../graphql';
 
 export class CreateChatDto extends NewChat {
   @IsNotEmpty()

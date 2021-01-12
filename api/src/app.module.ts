@@ -1,16 +1,22 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import {UsersModule} from "./users/users.module";
 import {TypeOrmModule} from "@nestjs/typeorm";
+import { PubSub } from 'graphql-subscriptions';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { AuroraDataApiConnectionOptions } from 'typeorm/driver/aurora-data-api/AuroraDataApiConnectionOptions';
+
+import {UsersModule} from "./users/users.module";
 import {MessageModule} from "./messages/messages.module";
 import {UserRepository} from "src/repository/users.repository";
 import {MessagesRepository} from "src/repository/message.repository";
 import {ChatRepository} from "src/repository/chat.repository"
 import {ChatModule} from "src/chats/chat.module"
-import { PubSub } from 'graphql-subscriptions';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
+
+import {ormConfig} from "./config/ormconfig";
+import {graphqlConfig} from "./config/graphql-config"
+import {serveStaticConfig} from "./config/serve-static-config"
 require('dotenv').config();
+
 
 @Module({
   imports: [
@@ -20,30 +26,9 @@ require('dotenv').config();
     MessagesRepository,
     ChatModule,
     ChatRepository,
-     ServeStaticModule.forRoot({
-       rootPath: join(__dirname, '..', 'client'),
-     }),
-    GraphQLModule.forRoot({
-      typePaths: ['./**/*.graphql'],
-      context: ({ req, connection }) => connection ? { req: connection.context } : { req: req.headers },
-      installSubscriptionHandlers: true,
-      subscriptions: {
-        keepAlive: 5000,
-      }
-    }),
-    TypeOrmModule.forRoot({
-      "type": "postgres",
-      "host": process.env.POSTGRES_HOST,
-      "port": +process.env.POSTGRES_PORT,
-      "username": process.env.POSTGRES_USER,
-      "password": process.env.POSTGRES_PASSWORD,
-      "database": process.env.POSTGRES_DATABASE,
-      "entities": [
-        "dist/**/*.entity.js"
-      ],
-      "synchronize": true,
-      "logging": true
-    }),
+    ServeStaticModule.forRoot(serveStaticConfig),
+    GraphQLModule.forRoot(graphqlConfig),
+    TypeOrmModule.forRoot(ormConfig as Partial<AuroraDataApiConnectionOptions>),
   ],
   providers: [
     {

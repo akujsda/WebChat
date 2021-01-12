@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
       return false
     }
 
-    ctx.user = await this.validateToken(ctx.req.autorization)
+    ctx.user = this.validateToken(ctx.req.autorization)
     return true
   }
 
@@ -21,7 +21,9 @@ export class AuthGuard implements CanActivate {
     if (auth.split(' ')[0] !== 'Bearer') {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }
+
     const token = auth.split(' ')[1]
+
     try {
       return jwt.verify(token, "secret")
     } catch (error) {

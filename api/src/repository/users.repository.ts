@@ -1,9 +1,15 @@
 import { EntityRepository, Repository, Not } from "typeorm";
+import { NotFoundException } from "@nestjs/common";
 
 import { UserEntity } from "../users/users.entity";
 import { User, UserSignInInput, UserPayload } from "src/graphql";
-import { NotFoundException } from "@nestjs/common";
 
+
+
+interface UserFromContext{
+  email:string
+  password:string
+}
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> {
 
@@ -11,15 +17,14 @@ export class UserRepository extends Repository<UserEntity> {
     const { name, email, password, salt } = input
     const userExist = await this.findOne({where: {email: email}})
     if (!userExist){
-
-    const user = this.create();
-    user.salt = salt;
-    user.name = name;
-    user.email = email;
-    user.password = password;
-    user.id;
-    user.save();
-    return true
+      const user = this.create();
+        user.salt = salt;
+        user.name = name;
+        user.email = email;
+        user.password = password;
+        user.id;
+        user.save();
+      return true
     } else {
       return false;
     }
@@ -27,7 +32,6 @@ export class UserRepository extends Repository<UserEntity> {
 
   async userSignIn(input: UserSignInInput): Promise<UserPayload | undefined> {
     const {email, password} = input
-
     const user = await this.findOne({where: {email: email}})
 
    if (!await user.validatePasswordAsync(password)){
@@ -43,8 +47,7 @@ export class UserRepository extends Repository<UserEntity> {
     return userPayload
   }
 
-
-  async getUsers(user): Promise<UserEntity[]> {
+  async getUsers(user: UserFromContext): Promise<UserEntity[]> {
     return await this.find({where:{email: Not(user.email)}})
 }
 
@@ -53,12 +56,10 @@ export class UserRepository extends Repository<UserEntity> {
   }
 
   async findById(find: string): Promise<UserEntity> {
-    const user = await this.findOne({where:{id: find}})
-    return user
+    return await this.findOne({where:{id: find}})
   }
 
   async findByName(name: string): Promise<UserEntity[]> {
-    const user = await this.find({where:{name: name}})
-    return user
+    return await this.find({where:{name: name}})
   }
 }

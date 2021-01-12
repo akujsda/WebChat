@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 const { graphqlHTTP } = require('express-graphql');
+
+import { AppModule } from './app.module';
 require('dotenv').config();
 
 async function bootstrap() {

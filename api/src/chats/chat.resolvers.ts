@@ -1,12 +1,11 @@
-import { Args, Mutation, Query, Resolver, Subscription, Context } from '@nestjs/graphql';
-import { Message, FindChatInput, Chat, NewChat, User, NewChatInput } from '../graphql';
-import { ChatService } from './chat.service';
-import { CreateChatDto } from '../dto/create-chat.dto';
-import {PubSub} from "graphql-subscriptions"
+import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
+import { PubSub } from "graphql-subscriptions"
 import { UseGuards } from '@nestjs/common';
+
+import { FindChatInput, NewChat, User, NewChatInput } from '../graphql';
+import { ChatService } from './chat.service';
 import { AuthGuard } from 'src/users/auth.guard';
-import get from 'lodash/get';
-import {CurrentUser} from "../messages/message.decorator"
+import { CurrentUser } from "../messages/message.decorator"
 
 
 const NEW_CHAT="NEW_CHAT"

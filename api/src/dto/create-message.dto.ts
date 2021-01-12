@@ -1,5 +1,6 @@
-import { NewMessage } from '../graphql';
 import { IsNotEmpty } from 'class-validator';
+
+import { NewMessage } from '../graphql';
 
 export class CreateMessageDto extends NewMessage {
   @IsNotEmpty()

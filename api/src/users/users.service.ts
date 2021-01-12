@@ -1,17 +1,18 @@
-import { Injectable, Inject, NotFoundException, Logger } from '@nestjs/common';
-import { User, UserId, UserSignInInput, UserPayload } from '../graphql';
-import { CreateUserDto } from '../dto/create-user.dto';
-import {UserRepository} from "../repository/users.repository"
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from './users.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Connection } from 'typeorm';
 import * as bcrypt from "bcryptjs"
 import * as jwt from "jsonwebtoken"
+
+import { User, UserSignInInput, UserPayload } from '../graphql';
+import { CreateUserDto } from '../dto/create-user.dto';
+import { UserRepository } from "../repository/users.repository"
+import { UserEntity } from './users.entity';
+
 @Injectable()
 export class UsersService {
   private userRepository: UserRepository
-  constructor(
 
+  constructor(
     private readonly connection: Connection,
   ){
     this.userRepository = this.connection.getCustomRepository(UserRepository);
@@ -29,31 +30,28 @@ export class UsersService {
      throw new NotFoundException("password or email was incorrect")
     } else {
      const validateUser = await this.userRepository.userSignIn({email, password})
-
-     if (validateUser) {
-       const userPayload= {
-        id: user.id,
-        userName: user.name,
-        token:  jwt.sign({email, password}, "secret")
+      if (validateUser) {
+        const userPayload= {
+          id: user.id,
+          userName: user.name,
+          token:  jwt.sign({email, password}, "secret")
+        }
+        return userPayload
       }
-
-      return userPayload
-       }
-
-     }
     }
+  }
 
 
- async create(userDto: CreateUserDto): Promise<boolean> {
-    const salt = bcrypt.genSaltSync(10)
-    const user: User = new User();
-    user.salt = salt;
-    user.id
-    user.name = userDto.name;
-    user.email = userDto.email;
-    user.password = await this.hashPasswordAsync(userDto.password, user.salt);
-    this.users.push(user);
-    return await this.userRepository.newUserAsync(user);
+  async create(userDto: CreateUserDto): Promise<boolean> {
+      const salt = bcrypt.genSaltSync(10)
+      const user: User = new User();
+        user.salt = salt;
+        user.id
+        user.name = userDto.name;
+        user.email = userDto.email;
+        user.password = await this.hashPasswordAsync(userDto.password, user.salt);
+      this.users.push(user);
+      return await this.userRepository.newUserAsync(user);
   }
 
  async userSignIn(input: UserSignInInput): Promise<UserPayload | undefined> {

@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Message, UserId, User, NewChat } from '../graphql';
-import { CreateMessageDto } from '../dto/create-message.dto';
-import {MessagesRepository} from "../repository/message.repository"
-import {UserRepository} from "../repository/users.repository"
 import { Connection } from 'typeorm';
+
+import { Message, User } from '../graphql';
+import { CreateMessageDto } from '../dto/create-message.dto';
+import { MessagesRepository } from "../repository/message.repository"
+import { UserRepository } from "../repository/users.repository"
 import { ChatRepository } from 'src/repository/chat.repository';
 
 @Injectable()
@@ -11,6 +12,7 @@ export class MessagesService {
   private readonly messagesRepository: MessagesRepository
   private readonly userRepository: UserRepository
   private readonly chatRepository: ChatRepository
+
   constructor(
     private readonly connection: Connection,
   ){
@@ -20,12 +22,11 @@ export class MessagesService {
   }
 
    async sendMessage(messageDto: CreateMessageDto, user: User){
-
       const message: Message = new Message();
-      message.senderName = (await this.userRepository.findUser(user.email)).name
-      message.text = messageDto.text
-      message.date= String(new Date())
-      message.chatId = messageDto.chatId
+        message.senderName = (await this.userRepository.findUser(user.email)).name
+        message.text = messageDto.text
+        message.date= String(new Date())
+        message.chatId = messageDto.chatId
       return await this.messagesRepository.sendMessage(message)
     }
 
@@ -39,7 +40,7 @@ export class MessagesService {
       const userId =  (await this.userRepository.findUser(userEmail)).id
 
       if(chat.senderId === userId || chat.senderId === userId){
-      return !!chat
-    }
+        return !!chat
+      }
     }
 }

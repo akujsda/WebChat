@@ -1,7 +1,5 @@
-import { EntityRepository, Repository, In } from "typeorm"
+import { EntityRepository, Repository } from "typeorm"
 
-import { UserEntity } from "../users/users.entity"
-import { CreateMessageDto } from "../dto/create-message.dto"
 import { MessageEntity } from "../messages/messages.entity"
 import { Message } from "src/graphql"
 
@@ -12,18 +10,15 @@ export class MessagesRepository extends Repository<MessageEntity> {
     const {  chatId, text, senderName } = input
 
     const message = this.create()
-    message.senderName = senderName
-    message.chatId = chatId
-    message.text = text
-    message.date = new Date()
-    message.id
-    await message.save()
-    return message
+      message.senderName = senderName
+      message.chatId = chatId
+      message.text = text
+      message.date = new Date()
+      message.id
+    return await message.save()
   }
 
   async getMessages(chatId: string): Promise<MessageEntity[]> {
-
-    const messages = await this.find({where:{chatId:chatId}})
-    return messages
+    return await this.find({where:{chatId:chatId}})
   }
 }
