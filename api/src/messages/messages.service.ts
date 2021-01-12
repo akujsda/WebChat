@@ -37,9 +37,9 @@ export class MessagesService {
 
     async isMyMessage(chatId: string, userEmail:string){
       const chat= await this.chatRepository.findChatById(chatId)
-      const userId =  (await this.userRepository.findUser(userEmail)).id
+      const userId =  (await this.userRepository.findUser(userEmail)).id || (await this.userRepository.findById(userEmail)).id
 
-      if(chat.senderId === userId || chat.senderId === userId){
+      if(chat.senderId === userId || chat.recipientId === userId){
         return !!chat
       }
     }

@@ -38,9 +38,10 @@ export class MessagesResolvers {
     ): Promise<MessageEntity> {
      const createMessage: Promise<MessageEntity> =  this.messagesService.sendMessage(args, user)
      const shouldUseSubscribe = await this.messagesService.isMyMessage(args.chatId, user.email)
-     if (shouldUseSubscribe){
+     if(shouldUseSubscribe){
       this.pubSub.publish(NEW_MESSAGE, {newMessage: createMessage})
      }
+
      return  createMessage
   }
 }
